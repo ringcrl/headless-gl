@@ -133,6 +133,8 @@ Immediately destroys the context and all associated resources.
 
 In most cases installing `headless-gl` from npm should just work.  However, if you run into problems you might need to adjust your system configuration and make sure all your dependencies are up to date.  For general information on building native modules, see the [`node-gyp`](https://github.com/nodejs/node-gyp) documentation.
 
+`headless-gl` includes [ANGLE](https://github.com/google/angle) as an OpenGL ES 2 implementation with EGL interface. You may choose another library in your system.
+
 #### Mac OS X
 
 * [Python 2.7](https://www.python.org/)
@@ -156,6 +158,17 @@ $ sudo apt-get install -y build-essential libxi-dev libglu1-mesa-dev libglew-dev
 * [Python 2.7](https://www.python.org/)
 * [Microsoft Visual Studio](https://www.microsoft.com/en-us/download/details.aspx?id=5555)
 * d3dcompiler_47.dll should be in c:\windows\system32, but if isn't then you can find another copy in the deps/ folder
+
+#### Using a library other than ANGLE
+In some cases, ANGLE is not available while other libraries are. For example, Unix-like operating systems except GNU/Linux and Android does have [the Mesa 3D Graphics Library](https://www.mesa3d.org/opengles.html) even though they are not supported by ANGLE.
+
+The Mesa 3D Graphics Library also supports Wayland or surfaceless platforms.
+
+`headless-gl` lets you choose another library with [`pkg-config`](https://www.freedesktop.org/wiki/Software/pkg-config/). Prepare `egl` and `glesv2` package for `pkg-config`, and set the execution command of `pkg-config` to `npm_config_headless_gl_pkg_config`. Typically you can install `headless-gl` with libraries in your system by typing the following command:
+
+```
+npm_config_headless_gl_pkg_config=pkg-config npm install headless-gl
+```
 
 ## FAQ
 
@@ -190,7 +203,28 @@ If you know of a service not listed here, open an issue I'll add it to the list.
 
 ### How can `headless-gl` be used on a headless Linux machine?
 
-If you are running your own minimal Linux server, such as the one one would want to use on Amazon AWS or equivalent, it will likely not provide an X11 nor an OpenGL environment. To setup such an environment you can use those two packages:
+If you are running your own minimal Linux server, such as the one one would want to use on Amazon AWS or equivalent, it will likely not provide an X11 nor an OpenGL environment. To setup such an environment you can choose one of the following configurations:
+
+1. Use [Mesa](http://www.mesa3d.org/intro.html) with surfaceless context
+2. Use [ANGLE](https://github.com/google/angle) included in `headless-gl`, Mesa and Xvfb
+
+#### Use [Mesa](http://www.mesa3d.org/intro.html) with its surfaceless context
+Mesa provides what you need to setup headless OpenGL environment, and does not require additional dependencies with notable exceptions of drivers, if your server has GPUs and you are going to utilize them.
+
+It does not support `ANGLE_instanced_arrays` extension. Check whether your application uses the extension before setup.
+
+Unfortunately, its EGL frontend does not support `swrast` (its software
+renderer), but there is an attempt to get it work. See
+[101397 – [EGL] Surfaceless lacks swrast support](https://bugs.freedesktop.org/show_bug.cgi?id=101397).
+
+To use it without X11 server or Wayland, you need surfaceless platform support of its EGL interface. It may not be available in your distribution because it is relatively new (merged in 2015). It could even have been disabled in your distribution because it is not necessary for desktops and. In those cases, build it by yourself by following [the official instruction](https://www.mesa3d.org/egl.html). Do not forget to enable OpenGL ES 2, EGL and surfaceless platform.
+
+To use the installed Mesa for this purpose, follow the instruction of _Using a library other than ANGLE_ section.
+
+#### Use [ANGLE](https://github.com/google/angle) included in `headless-gl`, Mesa and Xvfb
+ANGLE can use Mesa as its backend with [GLX](https://dri.freedesktop.org/wiki/GLX/). GLX requires X11 server, and Xvfb is a X11 server suitable for headless servers.
+
+While `ANGLE_instanced_arrays` extension is not supported by the OpenGL implementation of Mesa, ANGLE supports it even if the backend is Mesa.
 
 1. [Xvfb](https://en.wikipedia.org/wiki/Xvfb) is a lightweight X11 server which provides a back buffer for displaying X11 application offscreen and reading back the pixels which were drawn offscreen. It is typically used in Continuous Integration systems. It can be installed on CentOS with `yum install -y Xvfb`, and comes preinstalled on Ubuntu.
 2. [Mesa](https://docs.mesa3d.org) is the reference open source software implementation of OpenGL. It can be installed on CentOS with `yum install -y mesa-dri-drivers`, or `apt-get install libgl1-mesa-dev`. Since a cloud Linux instance will typically run on a machine that does not have a GPU, a software implementation of OpenGL will be required.

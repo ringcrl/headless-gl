@@ -120,6 +120,9 @@ struct WebGLRenderingContext : public node::ObjectWrap {
   //Preferred depth format
   GLenum preferredDepth;
 
+  //Extension Check
+  bool checkAngleInstancedArraysSupportInternal();
+
   //Destructors
   void dispose();
 
@@ -259,6 +262,7 @@ struct WebGLRenderingContext : public node::ObjectWrap {
   static NAN_METHOD(GetVertexAttrib);
   static NAN_METHOD(GetSupportedExtensions);
   static NAN_METHOD(GetExtension);
+  static NAN_METHOD(CheckAngleInstancedArraysSupport);
   static NAN_METHOD(CheckFramebufferStatus);
 
   static NAN_METHOD(FrontFace);
