@@ -34,9 +34,9 @@ NAN_MODULE_INIT(Init) {
     Nan::New<v8::String>("WebGLRenderingContext").ToLocalChecked());
 
   /* WebGL methods */
-  JS_GL_METHOD("drawArraysInstanced", DrawArraysInstanced);
-  JS_GL_METHOD("drawElementsInstanced", DrawElementsInstanced);
-  JS_GL_METHOD("vertexAttribDivisor", VertexAttribDivisor);
+  JS_GL_METHOD("_drawArraysInstanced", DrawArraysInstanced);
+  JS_GL_METHOD("_drawElementsInstanced", DrawElementsInstanced);
+  JS_GL_METHOD("_vertexAttribDivisor", VertexAttribDivisor);
 
   JS_GL_METHOD("getUniform", GetUniform);
   JS_GL_METHOD("uniform1f", Uniform1f);
@@ -160,6 +160,12 @@ NAN_MODULE_INIT(Init) {
   JS_GL_METHOD("frontFace", FrontFace);
   JS_GL_METHOD("sampleCoverage", SampleCoverage);
   JS_GL_METHOD("destroy", Destroy);
+  JS_GL_METHOD("drawBuffersWEBGL", DrawBuffersWEBGL);
+  JS_GL_METHOD("extWEBGL_draw_buffers", EXTWEBGL_draw_buffers);
+  JS_GL_METHOD("createVertexArrayOES", CreateVertexArrayOES);
+  JS_GL_METHOD("deleteVertexArrayOES", DeleteVertexArrayOES);
+  JS_GL_METHOD("isVertexArrayOES", IsVertexArrayOES);
+  JS_GL_METHOD("bindVertexArrayOES", BindVertexArrayOES);
 
   // Windows defines a macro called NO_ERROR which messes this up
   Nan::SetPrototypeTemplate(
@@ -348,7 +354,6 @@ NAN_MODULE_INIT(Init) {
   JS_GL_CONSTANT(DECR_WRAP);
   JS_GL_CONSTANT(VENDOR);
   JS_GL_CONSTANT(RENDERER);
-  JS_GL_CONSTANT(VERSION);
   JS_GL_CONSTANT(NEAREST);
   JS_GL_CONSTANT(LINEAR);
   JS_GL_CONSTANT(NEAREST_MIPMAP_NEAREST);
@@ -472,13 +477,16 @@ NAN_MODULE_INIT(Init) {
   JS_CONSTANT(CONTEXT_LOST_WEBGL, 0x9242);
   JS_CONSTANT(UNPACK_COLORSPACE_CONVERSION_WEBGL, 0x9243);
   JS_CONSTANT(BROWSER_DEFAULT_WEBGL, 0x9244);
+  JS_CONSTANT(VERSION, 0x1F02);
+  JS_CONSTANT(IMPLEMENTATION_COLOR_READ_TYPE, 0x8B9A);
+  JS_CONSTANT(IMPLEMENTATION_COLOR_READ_FORMAT, 0x8B9B);
 
   //Export template
   WEBGL_TEMPLATE.Reset(webgl_template);
   Nan::Set(
       target
     , Nan::New<v8::String>("WebGLRenderingContext").ToLocalChecked()
-    , webgl_template->GetFunction());
+    , Nan::GetFunction(webgl_template).ToLocalChecked());
 
   //Export helper methods for clean up and error handling
   Nan::Export(target, "cleanup", WebGLRenderingContext::DisposeAll);

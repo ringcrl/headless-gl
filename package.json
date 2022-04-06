@@ -1,6 +1,6 @@
 {
   "name": "gl",
-  "version": "4.0.4",
+  "version": "5.0.0",
   "description": "Creates a WebGL context without a window",
   "main": "index.js",
   "directories": {
@@ -8,7 +8,7 @@
   },
   "browser": "browser_index.js",
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">=12.0.0"
   },
   "scripts": {
     "test": "standard | snazzy && tape test/*.js | faucet",
@@ -17,22 +17,23 @@
     "install": "prebuild-install || node-gyp rebuild"
   },
   "dependencies": {
-    "bindings": "^1.2.1",
+    "bindings": "^1.5.0",
     "bit-twiddle": "^1.0.2",
     "glsl-tokenizer": "^2.0.2",
-    "nan": "^2.6.2",
-    "node-gyp": "^3.6.2",
-    "prebuild-install": "^2.1.1"
+    "nan": "^2.15.0",
+    "node-abi": "^3.5.0",
+    "node-gyp": "^8.4.1",
+    "prebuild-install": "^7.0.0"
   },
   "devDependencies": {
-    "prebuild": "^6.2.0",
     "angle-normals": "^1.0.0",
     "bunny": "^1.0.1",
     "faucet": "0.0.1",
     "gl-conformance": "^2.0.9",
-    "snazzy": "^7.0.0",
-    "standard": "^10.0.2",
-    "tape": "^4.7.0"
+    "prebuild": "^11.0.0",
+    "snazzy": "^9.0.0",
+    "standard": "^16.0.4",
+    "tape": "^5.4.0"
   },
   "repository": {
     "type": "git",
@@ -47,7 +48,6 @@
     "gpgpu"
   ],
   "author": "Mikola Lysenko",
-  "license": "BSD",
-  "gypfile": true,
-  "readmeFilename": "README.md"
+  "license": "BSD-2-Clause",
+  "gypfile": true
 }

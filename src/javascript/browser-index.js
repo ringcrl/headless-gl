@@ -1,5 +1,3 @@
-'use strict'
-
 function createContext (width, height, options) {
   width = width | 0
   height = height | 0
@@ -7,11 +5,15 @@ function createContext (width, height, options) {
     return null
   }
 
-  var canvas = document.createElement('canvas')
+  const canvas = document.createElement('canvas')
   if (!canvas) {
     return null
   }
-  var gl
+
+  /**
+   * @type WebGLRenderingContext
+   */
+  let gl
   canvas.width = width
   canvas.height = height
 
@@ -25,24 +27,24 @@ function createContext (width, height, options) {
     }
   }
 
-  var _getExtension = gl.getExtension
-  var extDestroy = {
+  const _getExtension = gl.getExtension
+  const extDestroy = {
     destroy: function () {
-      var loseContext = _getExtension.call(gl, 'WEBGL_lose_context')
+      const loseContext = _getExtension.call(gl, 'WEBGL_lose_context')
       if (loseContext) {
         loseContext.loseContext()
       }
     }
   }
 
-  var extResize = {
+  const extResize = {
     resize: function (w, h) {
       canvas.width = w
       canvas.height = h
     }
   }
 
-  var _supportedExtensions = gl.getSupportedExtensions().slice()
+  const _supportedExtensions = gl.getSupportedExtensions().slice()
   _supportedExtensions.push(
     'STACKGL_destroy_context',
     'STACKGL_resize_drawingbuffer')
@@ -51,7 +53,7 @@ function createContext (width, height, options) {
   }
 
   gl.getExtension = function (extName) {
-    var name = extName.toLowerCase()
+    const name = extName.toLowerCase()
     if (name === 'stackgl_resize_drawingbuffer') {
       return extResize
     }
@@ -60,12 +62,6 @@ function createContext (width, height, options) {
     }
     return _getExtension.call(gl, extName)
   }
-
-  Object.defineProperty(gl, 'canvas', {
-    get: function () {
-      return null
-    }
-  })
 
   return gl || null
 }

@@ -3,18 +3,42 @@ git:
   submodules: true
 env:
   global:
-    - secure: iKxK/0RIBC/iqPun3Bj3qtMDjIowdIe77MoejhqoczE3g/Fow57cbp3IApDEbbkD5wSm8PMdiPSIgjMt4ggCDCydJfLCTVDLbaYNfI3bc4ZfLPju1iSXF+4bbi39A5W/pv9ilFygP60W/eSupu8CmG6hnA4RYGlKUWxxPwolcMk=
+    - secure: "MHkBPTRLhQ04GgdBNOJvvvHf7gJyrc9aWCznWipB2RUQG+vobxPuOCV+rFFUB4Z/q3Dh54d/61dHs9nwHW/uP1jStwPqW1x19Uhcny+c0WEY6A87wjnUVR4g7pQ7+vzkwg8o2jdBC+8BQ/4M4IQ2nRic5qcB8Z6FCOdL4ENhvA8="
 matrix:
   include:
+  # - os: linux
+  #   sudo: required
+  #   dist: bionic
+  #   compiler: g++
+  #   env:
+  #     - NODE_VERSION=12
+  # - os: linux
+  #   sudo: required
+  #   dist: bionic
+  #   compiler: g++
+  #   env:
+  #     - NODE_VERSION=14
   - os: linux
     sudo: required
-    dist: trusty
+    dist: bionic
     compiler: g++
-    env: NODE_VERSION=4
-  - os: osx
-    osx_image: xcode7
-    compiler: clang
-    env: NODE_VERSION=4
+    env:
+      - NODE_VERSION=16
+  # - os: osx
+  #   osx_image: xcode12.5
+  #   compiler: clang
+  #   env:
+  #     - NODE_VERSION=12
+  # - os: osx
+  #   osx_image: xcode12.5
+  #   compiler: clang
+  #   env:
+  #     - NODE_VERSION=14
+  # - os: osx
+  #   osx_image: xcode12.5
+  #   compiler: clang
+  #   env:
+  #     - NODE_VERSION=16
 addons:
   apt:
     sources:
@@ -29,6 +53,8 @@ addons:
     - libgl1-mesa-dri
     - libglapi-mesa
     - libosmesa6
+    - musl-dev
+    - libgl1-mesa-dev
 before_install:
 - ./scripts/before_install.sh
 install:

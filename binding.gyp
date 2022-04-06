@@ -14,9 +14,9 @@
         'VERSION=1.0.0'
       ],
       'sources': [
-          'src/bindings.cc',
-          'src/webgl.cc',
-          'src/procs.cc'
+          'src/native/bindings.cc',
+          'src/native/webgl.cc',
+          'src/native/procs.cc'
       ],
       'include_dirs': [
         "<!(node -e \"require('nan')\")",
@@ -39,6 +39,14 @@
                     '-framework QuartzCore',
                     '-framework Quartz'
                 ],
+            'xcode_settings': {
+              'GCC_ENABLE_CPP_RTTI': 'YES',
+              'GCC_ENABLE_CPP_EXCEPTIONS': 'YES',
+              'MACOSX_DEPLOYMENT_TARGET':'10.8',
+              'CLANG_CXX_LIBRARY': 'libc++',
+              'CLANG_CXX_LANGUAGE_STANDARD':'c++14',
+              'GCC_VERSION': 'com.apple.compilers.llvm.clang.1_0'
+            },
             }],
             ['OS=="linux"', {
                 'dependencies':
@@ -82,6 +90,9 @@
                         'OptimizeReferences': 1, # /OPT:NOREF
                         'EnableCOMDATFolding': 1, # /OPT:NOICF
                         'LinkIncremental': 2, # /INCREMENTAL
+                    'AdditionalOptions': [
+                      '/LTCG:OFF',
+                    ]
                       }
                     },
                     'msvs_configuration_attributes':
@@ -96,7 +107,8 @@
                     'destination': '$(SolutionDir)$(ConfigurationName)',
                     'files': [
                       '<(module_root_dir)/deps/windows/dll/<(target_arch)/libEGL.dll',
-                      '<(module_root_dir)/deps/windows/dll/<(target_arch)/libGLESv2.dll'
+                  '<(module_root_dir)/deps/windows/dll/<(target_arch)/libGLESv2.dll',
+                  '<(module_root_dir)/deps/windows/dll/<(target_arch)/d3dcompiler_47.dll'
                     ]
                   }
                 ]

@@ -1,25 +1,28 @@
 /* globals  __stack */
 
-var log4js = require('log4js')
+const log4js = require('log4js')
 // var path = require('path')
 
 function getLogger (category, level) {
-  var log
   if (level == null) {
     level = 'INFO'
   }
 
   log4js.configure({
-    appenders: [
-      {
+    appenders: {
+      console: {
         type: 'console'
       }
-    ]
+    },
+    categories: {
+      default: {
+        appenders: ['console'],
+        level
+      }
+    }
   })
 
-  log = log4js.getLogger(category)
-  log.setLevel(level)
-  return log
+  return log4js.getLogger(category)
 }
 
 function Log (filename, level) {
@@ -44,13 +47,13 @@ Log.prototype = {
 
 Object.defineProperty(global, '__stack', {
   get: function () {
-    var orig = Error.prepareStackTrace
+    const orig = Error.prepareStackTrace
     Error.prepareStackTrace = function (_, stack) {
       return stack
     }
-    var err = new Error()
+    const err = new Error()
     Error.captureStackTrace(err, arguments.callee) // eslint-disable-line 
-    var stack = err.stack
+    const stack = err.stack
     Error.prepareStackTrace = orig
     return stack
   }

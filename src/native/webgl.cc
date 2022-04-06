@@ -213,6 +213,9 @@ void WebGLRenderingContext::dispose() {
       case GLOBJECT_TYPE_TEXTURE:
         (inst->glDeleteTextures)(1,&obj);
         break;
+      case GLOBJECT_TYPE_VERTEX_ARRAY:
+        (inst->glDeleteVertexArraysOES)(1,&obj);
+        break;
       default:
         break;
     }
@@ -235,7 +238,7 @@ WebGLRenderingContext::~WebGLRenderingContext() {
 
 GL_METHOD(SetError) {
   GL_BOILERPLATE;
-  inst->setError((GLenum)info[0]->Int32Value());
+  inst->setError((GLenum)(Nan::To<int32_t>(info[0]).ToChecked()));
 }
 
 GL_METHOD(DisposeAll) {
@@ -255,16 +258,16 @@ GL_METHOD(New) {
   Nan::HandleScope();
 
   WebGLRenderingContext* instance = new WebGLRenderingContext(
-      info[0]->Int32Value()   //Width
-    , info[1]->Int32Value()   //Height
-    , info[2]->BooleanValue() //Alpha
-    , info[3]->BooleanValue() //Depth
-    , info[4]->BooleanValue() //Stencil
-    , info[5]->BooleanValue() //antialias
-    , info[6]->BooleanValue() //premultipliedAlpha
-    , info[7]->BooleanValue() //preserve drawing buffer
-    , info[8]->BooleanValue() //low power
-    , info[9]->BooleanValue() //fail if crap
+      Nan::To<int32_t>(info[0]).ToChecked()   //Width
+    , Nan::To<int32_t>(info[1]).ToChecked()   //Height
+    , (Nan::To<bool>(info[2]).ToChecked()) //Alpha
+    , (Nan::To<bool>(info[3]).ToChecked()) //Depth
+    , (Nan::To<bool>(info[4]).ToChecked()) //Stencil
+    , (Nan::To<bool>(info[5]).ToChecked()) //antialias
+    , (Nan::To<bool>(info[6]).ToChecked()) //premultipliedAlpha
+    , (Nan::To<bool>(info[7]).ToChecked()) //preserve drawing buffer
+    , (Nan::To<bool>(info[8]).ToChecked()) //low power
+    , (Nan::To<bool>(info[9]).ToChecked()) //fail if crap
   );
 
   if(instance->state != GLCONTEXT_STATE_OK){
@@ -285,8 +288,8 @@ GL_METHOD(Destroy) {
 GL_METHOD(Uniform1f) {
   GL_BOILERPLATE;
 
-  int location = info[0]->Int32Value();
-  float x = (float) info[1]->NumberValue();
+  int location = Nan::To<int32_t>(info[0]).ToChecked();
+  float x = (float) Nan::To<double>(info[1]).ToChecked();
 
   (inst->glUniform1f)(location, x);
 }
@@ -294,9 +297,9 @@ GL_METHOD(Uniform1f) {
 GL_METHOD(Uniform2f) {
   GL_BOILERPLATE;
 
-  GLint location = info[0]->Int32Value();
-  GLfloat x = static_cast<GLfloat>(info[1]->NumberValue());
-  GLfloat y = static_cast<GLfloat>(info[2]->NumberValue());
+  GLint location = Nan::To<int32_t>(info[0]).ToChecked();
+  GLfloat x = static_cast<GLfloat>(Nan::To<double>(info[1]).ToChecked());
+  GLfloat y = static_cast<GLfloat>(Nan::To<double>(info[2]).ToChecked());
 
   (inst->glUniform2f)(location, x, y);
 }
@@ -304,10 +307,10 @@ GL_METHOD(Uniform2f) {
 GL_METHOD(Uniform3f) {
   GL_BOILERPLATE;
 
-  GLint location = info[0]->Int32Value();
-  GLfloat x = static_cast<GLfloat>(info[1]->NumberValue());
-  GLfloat y = static_cast<GLfloat>(info[2]->NumberValue());
-  GLfloat z = static_cast<GLfloat>(info[3]->NumberValue());
+  GLint location = Nan::To<int32_t>(info[0]).ToChecked();
+  GLfloat x = static_cast<GLfloat>(Nan::To<double>(info[1]).ToChecked());
+  GLfloat y = static_cast<GLfloat>(Nan::To<double>(info[2]).ToChecked());
+  GLfloat z = static_cast<GLfloat>(Nan::To<double>(info[3]).ToChecked());
 
   (inst->glUniform3f)(location, x, y, z);
 }
@@ -315,11 +318,11 @@ GL_METHOD(Uniform3f) {
 GL_METHOD(Uniform4f) {
   GL_BOILERPLATE;
 
-  GLint location = info[0]->Int32Value();
-  GLfloat x = static_cast<GLfloat>(info[1]->NumberValue());
-  GLfloat y = static_cast<GLfloat>(info[2]->NumberValue());
-  GLfloat z = static_cast<GLfloat>(info[3]->NumberValue());
-  GLfloat w = static_cast<GLfloat>(info[4]->NumberValue());
+  GLint location = Nan::To<int32_t>(info[0]).ToChecked();
+  GLfloat x = static_cast<GLfloat>(Nan::To<double>(info[1]).ToChecked());
+  GLfloat y = static_cast<GLfloat>(Nan::To<double>(info[2]).ToChecked());
+  GLfloat z = static_cast<GLfloat>(Nan::To<double>(info[3]).ToChecked());
+  GLfloat w = static_cast<GLfloat>(Nan::To<double>(info[4]).ToChecked());
 
   (inst->glUniform4f)(location, x, y, z, w);
 }
@@ -327,8 +330,8 @@ GL_METHOD(Uniform4f) {
 GL_METHOD(Uniform1i) {
   GL_BOILERPLATE;
 
-  GLint location = info[0]->Int32Value();
-  GLint x = info[1]->Int32Value();
+  GLint location = Nan::To<int32_t>(info[0]).ToChecked();
+  GLint x = Nan::To<int32_t>(info[1]).ToChecked();
 
   (inst->glUniform1i)(location, x);
 }
@@ -336,9 +339,9 @@ GL_METHOD(Uniform1i) {
 GL_METHOD(Uniform2i) {
   GL_BOILERPLATE;
 
-  GLint location = info[0]->Int32Value();
-  GLint x = info[1]->Int32Value();
-  GLint y = info[2]->Int32Value();
+  GLint location = Nan::To<int32_t>(info[0]).ToChecked();
+  GLint x = Nan::To<int32_t>(info[1]).ToChecked();
+  GLint y = Nan::To<int32_t>(info[2]).ToChecked();
 
   (inst->glUniform2i)(location, x, y);
 }
@@ -346,10 +349,10 @@ GL_METHOD(Uniform2i) {
 GL_METHOD(Uniform3i) {
   GL_BOILERPLATE;
 
-  GLint location = info[0]->Int32Value();
-  GLint x = info[1]->Int32Value();
-  GLint y = info[2]->Int32Value();
-  GLint z = info[3]->Int32Value();
+  GLint location = Nan::To<int32_t>(info[0]).ToChecked();
+  GLint x = Nan::To<int32_t>(info[1]).ToChecked();
+  GLint y = Nan::To<int32_t>(info[2]).ToChecked();
+  GLint z = Nan::To<int32_t>(info[3]).ToChecked();
 
   (inst->glUniform3i)(location, x, y, z);
 }
@@ -357,11 +360,11 @@ GL_METHOD(Uniform3i) {
 GL_METHOD(Uniform4i) {
   GL_BOILERPLATE;
 
-  GLint location = info[0]->Int32Value();
-  GLint x = info[1]->Int32Value();
-  GLint y = info[2]->Int32Value();
-  GLint z = info[3]->Int32Value();
-  GLint w = info[4]->Int32Value();
+  GLint location = Nan::To<int32_t>(info[0]).ToChecked();
+  GLint x = Nan::To<int32_t>(info[1]).ToChecked();
+  GLint y = Nan::To<int32_t>(info[2]).ToChecked();
+  GLint z = Nan::To<int32_t>(info[3]).ToChecked();
+  GLint w = Nan::To<int32_t>(info[4]).ToChecked();
 
   (inst->glUniform4i)(location, x, y, z, w);
 }
@@ -370,8 +373,8 @@ GL_METHOD(Uniform4i) {
 GL_METHOD(PixelStorei) {
   GL_BOILERPLATE;
 
-  GLenum pname = info[0]->Int32Value();
-  GLenum param = info[1]->Int32Value();
+  GLenum pname = Nan::To<int32_t>(info[0]).ToChecked();
+  GLenum param = Nan::To<int32_t>(info[1]).ToChecked();
 
   //Handle WebGL specific extensions
   switch(pname) {
@@ -392,6 +395,10 @@ GL_METHOD(PixelStorei) {
       (inst->glPixelStorei)(pname, param);
     break;
 
+    case GL_MAX_DRAW_BUFFERS_EXT:
+      (inst->glPixelStorei)(pname, param);
+    break;
+
     default:
       (inst->glPixelStorei)(pname, param);
     break;
@@ -401,8 +408,8 @@ GL_METHOD(PixelStorei) {
 GL_METHOD(BindAttribLocation) {
   GL_BOILERPLATE;
 
-  GLint program = info[0]->Int32Value();
-  GLint index   = info[1]->Int32Value();
+  GLint program = Nan::To<int32_t>(info[0]).ToChecked();
+  GLint index   = Nan::To<int32_t>(info[1]).ToChecked();
   Nan::Utf8String name(info[2]);
 
   (inst->glBindAttribLocation)(program, index, *name);
@@ -425,8 +432,8 @@ GL_METHOD(GetError) {
 GL_METHOD(VertexAttribDivisor) {
   GL_BOILERPLATE;
 
-  GLuint index   = info[0]->Uint32Value();
-  GLuint divisor = info[1]->Uint32Value();
+  GLuint index   = Nan::To<uint32_t>(info[0]).ToChecked();
+  GLuint divisor = Nan::To<uint32_t>(info[1]).ToChecked();
 
   (inst->glVertexAttribDivisor)(index, divisor);
 }
@@ -434,10 +441,10 @@ GL_METHOD(VertexAttribDivisor) {
 GL_METHOD(DrawArraysInstanced) {
   GL_BOILERPLATE;
 
-  GLenum  mode   = info[0]->Int32Value();
-  GLint   first  = info[1]->Int32Value();
-  GLuint  count  = info[2]->Uint32Value();
-  GLuint  icount = info[3]->Uint32Value();
+  GLenum  mode   = Nan::To<int32_t>(info[0]).ToChecked();
+  GLint   first  = Nan::To<int32_t>(info[1]).ToChecked();
+  GLuint  count  = Nan::To<uint32_t>(info[2]).ToChecked();
+  GLuint  icount = Nan::To<uint32_t>(info[3]).ToChecked();
 
   (inst->glDrawArraysInstanced)(mode, first, count, icount);
 }
@@ -445,11 +452,11 @@ GL_METHOD(DrawArraysInstanced) {
 GL_METHOD(DrawElementsInstanced) {
   GL_BOILERPLATE;
 
-  GLenum mode   = info[0]->Int32Value();
-  GLint  count  = info[1]->Int32Value();
-  GLenum type   = info[2]->Int32Value();
-  GLint  offset = info[3]->Int32Value();
-  GLuint icount = info[4]->Uint32Value();
+  GLenum mode   = Nan::To<int32_t>(info[0]).ToChecked();
+  GLint  count  = Nan::To<int32_t>(info[1]).ToChecked();
+  GLenum type   = Nan::To<int32_t>(info[2]).ToChecked();
+  GLint  offset = Nan::To<int32_t>(info[3]).ToChecked();
+  GLuint icount = Nan::To<uint32_t>(info[4]).ToChecked();
 
   (inst->glDrawElementsInstanced)(
     mode,
@@ -462,9 +469,9 @@ GL_METHOD(DrawElementsInstanced) {
 GL_METHOD(DrawArrays) {
   GL_BOILERPLATE;
 
-  GLenum mode  = info[0]->Int32Value();
-  GLint  first = info[1]->Int32Value();
-  GLint  count = info[2]->Int32Value();
+  GLenum mode  = Nan::To<int32_t>(info[0]).ToChecked();
+  GLint  first = Nan::To<int32_t>(info[1]).ToChecked();
+  GLint  count = Nan::To<int32_t>(info[2]).ToChecked();
 
   (inst->glDrawArrays)(mode, first, count);
 }
@@ -472,8 +479,8 @@ GL_METHOD(DrawArrays) {
 GL_METHOD(UniformMatrix2fv) {
   GL_BOILERPLATE;
 
-  GLint location      = info[0]->Int32Value();
-  GLboolean transpose = info[1]->BooleanValue();
+  GLint location      = Nan::To<int32_t>(info[0]).ToChecked();
+  GLboolean transpose = (Nan::To<bool>(info[1]).ToChecked());
   Nan::TypedArrayContents<GLfloat> data(info[2]);
 
   (inst->glUniformMatrix2fv)(location, data.length() / 4, transpose, *data);
@@ -482,8 +489,8 @@ GL_METHOD(UniformMatrix2fv) {
 GL_METHOD(UniformMatrix3fv) {
   GL_BOILERPLATE;
 
-  GLint     location  = info[0]->Int32Value();
-  GLboolean transpose = info[1]->BooleanValue();
+  GLint     location  = Nan::To<int32_t>(info[0]).ToChecked();
+  GLboolean transpose = (Nan::To<bool>(info[1]).ToChecked());
   Nan::TypedArrayContents<GLfloat> data(info[2]);
 
   (inst->glUniformMatrix3fv)(location, data.length() / 9, transpose, *data);
@@ -492,8 +499,8 @@ GL_METHOD(UniformMatrix3fv) {
 GL_METHOD(UniformMatrix4fv) {
   GL_BOILERPLATE;
 
-  GLint     location  = info[0]->Int32Value();
-  GLboolean transpose = info[1]->BooleanValue();
+  GLint     location  = Nan::To<int32_t>(info[0]).ToChecked();
+  GLboolean transpose = (Nan::To<bool>(info[1]).ToChecked());
   Nan::TypedArrayContents<GLfloat> data(info[2]);
 
   (inst->glUniformMatrix4fv)(location, data.length() / 16, transpose, *data);
@@ -502,14 +509,14 @@ GL_METHOD(UniformMatrix4fv) {
 GL_METHOD(GenerateMipmap) {
   GL_BOILERPLATE;
 
-  GLint target = info[0]->Int32Value();
+  GLint target = Nan::To<int32_t>(info[0]).ToChecked();
   (inst->glGenerateMipmap)(target);
 }
 
 GL_METHOD(GetAttribLocation) {
   GL_BOILERPLATE;
 
-  GLint program = info[0]->Int32Value();
+  GLint program = Nan::To<int32_t>(info[0]).ToChecked();
   Nan::Utf8String name(info[1]);
 
   GLint result = (inst->glGetAttribLocation)(program, *name);
@@ -521,17 +528,17 @@ GL_METHOD(GetAttribLocation) {
 GL_METHOD(DepthFunc) {
   GL_BOILERPLATE;
 
-  (inst->glDepthFunc)(info[0]->Int32Value());
+  (inst->glDepthFunc)(Nan::To<int32_t>(info[0]).ToChecked());
 }
 
 
 GL_METHOD(Viewport) {
   GL_BOILERPLATE;
 
-  GLint   x       = info[0]->Int32Value();
-  GLint   y       = info[1]->Int32Value();
-  GLsizei width   = info[2]->Int32Value();
-  GLsizei height  = info[3]->Int32Value();
+  GLint   x       = Nan::To<int32_t>(info[0]).ToChecked();
+  GLint   y       = Nan::To<int32_t>(info[1]).ToChecked();
+  GLsizei width   = Nan::To<int32_t>(info[2]).ToChecked();
+  GLsizei height  = Nan::To<int32_t>(info[3]).ToChecked();
 
   (inst->glViewport)(x, y, width, height);
 }
@@ -539,7 +546,7 @@ GL_METHOD(Viewport) {
 GL_METHOD(CreateShader) {
   GL_BOILERPLATE;
 
-  GLuint shader=(inst->glCreateShader)(info[0]->Int32Value());
+  GLuint shader=(inst->glCreateShader)(Nan::To<int32_t>(info[0]).ToChecked());
   inst->registerGLObj(GLOBJECT_TYPE_SHADER, shader);
 
   info.GetReturnValue().Set(Nan::New<v8::Integer>(shader));
@@ -549,7 +556,7 @@ GL_METHOD(CreateShader) {
 GL_METHOD(ShaderSource) {
   GL_BOILERPLATE;
 
-  GLint id = info[0]->Int32Value();
+  GLint id = Nan::To<int32_t>(info[0]).ToChecked();
   Nan::Utf8String code(info[1]);
 
   const char* codes[] = { *code };
@@ -562,21 +569,21 @@ GL_METHOD(ShaderSource) {
 GL_METHOD(CompileShader) {
   GL_BOILERPLATE;
 
-  (inst->glCompileShader)(info[0]->Int32Value());
+  (inst->glCompileShader)(Nan::To<int32_t>(info[0]).ToChecked());
 }
 
 GL_METHOD(FrontFace) {
   GL_BOILERPLATE;
 
-  (inst->glFrontFace)(info[0]->Int32Value());
+  (inst->glFrontFace)(Nan::To<int32_t>(info[0]).ToChecked());
 }
 
 
 GL_METHOD(GetShaderParameter) {
   GL_BOILERPLATE;
 
-  GLint shader = info[0]->Int32Value();
-  GLenum pname = info[1]->Int32Value();
+  GLint shader = Nan::To<int32_t>(info[0]).ToChecked();
+  GLenum pname = Nan::To<int32_t>(info[1]).ToChecked();
 
   GLint value;
   (inst->glGetShaderiv)(shader, pname, &value);
@@ -587,7 +594,7 @@ GL_METHOD(GetShaderParameter) {
 GL_METHOD(GetShaderInfoLog) {
   GL_BOILERPLATE;
 
-  GLint id = info[0]->Int32Value();
+  GLint id = Nan::To<int32_t>(info[0]).ToChecked();
 
   GLint infoLogLength;
   (inst->glGetShaderiv)(id, GL_INFO_LOG_LENGTH, &infoLogLength);
@@ -615,8 +622,8 @@ GL_METHOD(CreateProgram) {
 GL_METHOD(AttachShader) {
   GL_BOILERPLATE;
 
-  GLint program = info[0]->Int32Value();
-  GLint shader  = info[1]->Int32Value();
+  GLint program = Nan::To<int32_t>(info[0]).ToChecked();
+  GLint shader  = Nan::To<int32_t>(info[1]).ToChecked();
 
   (inst->glAttachShader)(program, shader);
 }
@@ -624,21 +631,21 @@ GL_METHOD(AttachShader) {
 GL_METHOD(ValidateProgram) {
   GL_BOILERPLATE;
 
-  (inst->glValidateProgram)(info[0]->Int32Value());
+  (inst->glValidateProgram)(Nan::To<int32_t>(info[0]).ToChecked());
 }
 
 GL_METHOD(LinkProgram) {
   GL_BOILERPLATE;
 
-  (inst->glLinkProgram)(info[0]->Int32Value());
+  (inst->glLinkProgram)(Nan::To<int32_t>(info[0]).ToChecked());
 }
 
 
 GL_METHOD(GetProgramParameter) {
   GL_BOILERPLATE;
 
-  GLint program = info[0]->Int32Value();
-  GLenum pname  = (GLenum)(info[1]->Int32Value());
+  GLint program = Nan::To<int32_t>(info[0]).ToChecked();
+  GLenum pname  = (GLenum)(Nan::To<int32_t>(info[1]).ToChecked());
   GLint value = 0;
 
   (inst->glGetProgramiv)(program, pname, &value);
@@ -650,7 +657,7 @@ GL_METHOD(GetProgramParameter) {
 GL_METHOD(GetUniformLocation) {
   GL_BOILERPLATE;
 
-  GLint program = info[0]->Int32Value();
+  GLint program = Nan::To<int32_t>(info[0]).ToChecked();
   Nan::Utf8String name(info[1]);
 
   info.GetReturnValue().Set(Nan::New<v8::Integer>(
@@ -661,10 +668,10 @@ GL_METHOD(GetUniformLocation) {
 GL_METHOD(ClearColor) {
   GL_BOILERPLATE;
 
-  GLfloat red   = static_cast<GLfloat>(info[0]->NumberValue());
-  GLfloat green = static_cast<GLfloat>(info[1]->NumberValue());
-  GLfloat blue  = static_cast<GLfloat>(info[2]->NumberValue());
-  GLfloat alpha = static_cast<GLfloat>(info[3]->NumberValue());
+  GLfloat red   = static_cast<GLfloat>(Nan::To<double>(info[0]).ToChecked());
+  GLfloat green = static_cast<GLfloat>(Nan::To<double>(info[1]).ToChecked());
+  GLfloat blue  = static_cast<GLfloat>(Nan::To<double>(info[2]).ToChecked());
+  GLfloat alpha = static_cast<GLfloat>(Nan::To<double>(info[3]).ToChecked());
 
   (inst->glClearColor)(red, green, blue, alpha);
 }
@@ -673,7 +680,7 @@ GL_METHOD(ClearColor) {
 GL_METHOD(ClearDepth) {
   GL_BOILERPLATE;
 
-  GLfloat depth = static_cast<GLfloat>(info[0]->NumberValue());
+  GLfloat depth = static_cast<GLfloat>(Nan::To<double>(info[0]).ToChecked());
 
   (inst->glClearDepthf)(depth);
 }
@@ -681,13 +688,13 @@ GL_METHOD(ClearDepth) {
 GL_METHOD(Disable) {
   GL_BOILERPLATE;
 
-  (inst->glDisable)(info[0]->Int32Value());
+  (inst->glDisable)(Nan::To<int32_t>(info[0]).ToChecked());
 }
 
 GL_METHOD(Enable) {
   GL_BOILERPLATE;
 
-  (inst->glEnable)(info[0]->Int32Value());
+  (inst->glEnable)(Nan::To<int32_t>(info[0]).ToChecked());
 }
 
 
@@ -705,8 +712,8 @@ GL_METHOD(CreateTexture) {
 GL_METHOD(BindTexture) {
   GL_BOILERPLATE;
 
-  GLenum target = info[0]->Int32Value();
-  GLint texture = info[1]->Int32Value();
+  GLenum target = Nan::To<int32_t>(info[0]).ToChecked();
+  GLint texture = Nan::To<int32_t>(info[1]).ToChecked();
 
   (inst->glBindTexture)(target, texture);
 }
@@ -809,14 +816,14 @@ unsigned char* WebGLRenderingContext::unpackPixels(
 GL_METHOD(TexImage2D) {
   GL_BOILERPLATE;
 
-  GLenum target         = info[0]->Int32Value();
-  GLint level           = info[1]->Int32Value();
-  GLenum internalformat = info[2]->Int32Value();
-  GLsizei width         = info[3]->Int32Value();
-  GLsizei height        = info[4]->Int32Value();
-  GLint border          = info[5]->Int32Value();
-  GLenum format         = info[6]->Int32Value();
-  GLint type            = info[7]->Int32Value();
+  GLenum target         = Nan::To<int32_t>(info[0]).ToChecked();
+  GLint level           = Nan::To<int32_t>(info[1]).ToChecked();
+  GLenum internalformat = Nan::To<int32_t>(info[2]).ToChecked();
+  GLsizei width         = Nan::To<int32_t>(info[3]).ToChecked();
+  GLsizei height        = Nan::To<int32_t>(info[4]).ToChecked();
+  GLint border          = Nan::To<int32_t>(info[5]).ToChecked();
+  GLenum format         = Nan::To<int32_t>(info[6]).ToChecked();
+  GLint type            = Nan::To<int32_t>(info[7]).ToChecked();
   Nan::TypedArrayContents<unsigned char> pixels(info[8]);
 
   if(*pixels) {
@@ -852,6 +859,9 @@ GL_METHOD(TexImage2D) {
     }
   } else {
     size_t length = width * height * 4;
+    if(type == GL_FLOAT) {
+      length *= 4;
+    }
     char* data = new char[length];
     memset(data, 0, length);
     (inst->glTexImage2D)(
@@ -871,14 +881,14 @@ GL_METHOD(TexImage2D) {
 GL_METHOD(TexSubImage2D) {
   GL_BOILERPLATE;
 
-  GLenum target   = info[0]->Int32Value();
-  GLint level     = info[1]->Int32Value();
-  GLint xoffset   = info[2]->Int32Value();
-  GLint yoffset   = info[3]->Int32Value();
-  GLsizei width   = info[4]->Int32Value();
-  GLsizei height  = info[5]->Int32Value();
-  GLenum format   = info[6]->Int32Value();
-  GLenum type     = info[7]->Int32Value();
+  GLenum target   = Nan::To<int32_t>(info[0]).ToChecked();
+  GLint level     = Nan::To<int32_t>(info[1]).ToChecked();
+  GLint xoffset   = Nan::To<int32_t>(info[2]).ToChecked();
+  GLint yoffset   = Nan::To<int32_t>(info[3]).ToChecked();
+  GLsizei width   = Nan::To<int32_t>(info[4]).ToChecked();
+  GLsizei height  = Nan::To<int32_t>(info[5]).ToChecked();
+  GLenum format   = Nan::To<int32_t>(info[6]).ToChecked();
+  GLenum type     = Nan::To<int32_t>(info[7]).ToChecked();
   Nan::TypedArrayContents<unsigned char> pixels(info[8]);
 
   if(inst->unpack_flip_y ||
@@ -919,9 +929,9 @@ GL_METHOD(TexSubImage2D) {
 GL_METHOD(TexParameteri) {
   GL_BOILERPLATE;
 
-  GLenum target = info[0]->Int32Value();
-  GLenum pname  = info[1]->Int32Value();
-  GLint param   = info[2]->Int32Value();
+  GLenum target = Nan::To<int32_t>(info[0]).ToChecked();
+  GLenum pname  = Nan::To<int32_t>(info[1]).ToChecked();
+  GLint param   = Nan::To<int32_t>(info[2]).ToChecked();
 
   (inst->glTexParameteri)(target, pname, param);
 }
@@ -929,9 +939,9 @@ GL_METHOD(TexParameteri) {
 GL_METHOD(TexParameterf) {
   GL_BOILERPLATE;
 
-  GLenum target = info[0]->Int32Value();
-  GLenum pname  = info[1]->Int32Value();
-  GLfloat param = static_cast<GLfloat>(info[2]->NumberValue());
+  GLenum target = Nan::To<int32_t>(info[0]).ToChecked();
+  GLenum pname  = Nan::To<int32_t>(info[1]).ToChecked();
+  GLfloat param = static_cast<GLfloat>(Nan::To<double>(info[2]).ToChecked());
 
   (inst->glTexParameterf)(target, pname, param);
 }
@@ -940,14 +950,14 @@ GL_METHOD(TexParameterf) {
 GL_METHOD(Clear) {
   GL_BOILERPLATE;
 
-  (inst->glClear)(info[0]->Int32Value());
+  (inst->glClear)(Nan::To<int32_t>(info[0]).ToChecked());
 }
 
 
 GL_METHOD(UseProgram) {
   GL_BOILERPLATE;
 
-  (inst->glUseProgram)(info[0]->Int32Value());
+  (inst->glUseProgram)(Nan::To<int32_t>(info[0]).ToChecked());
 }
 
 GL_METHOD(CreateBuffer) {
@@ -963,8 +973,8 @@ GL_METHOD(CreateBuffer) {
 GL_METHOD(BindBuffer) {
   GL_BOILERPLATE;
 
-  GLenum target = (GLenum)info[0]->Int32Value();
-  GLuint buffer = (GLuint)info[1]->Uint32Value();
+  GLenum target = (GLenum)Nan::To<int32_t>(info[0]).ToChecked();
+  GLuint buffer = (GLuint)Nan::To<uint32_t>(info[1]).ToChecked();
 
   (inst->glBindBuffer)(target,buffer);
 }
@@ -984,8 +994,8 @@ GL_METHOD(CreateFramebuffer) {
 GL_METHOD(BindFramebuffer) {
   GL_BOILERPLATE;
 
-  GLint target = (GLint)info[0]->Int32Value();
-  GLint buffer = (GLint)info[1]->Int32Value();
+  GLint target = (GLint)Nan::To<int32_t>(info[0]).ToChecked();
+  GLint buffer = (GLint)(Nan::To<int32_t>(info[1]).ToChecked());
 
   (inst->glBindFramebuffer)(target, buffer);
 }
@@ -994,11 +1004,11 @@ GL_METHOD(BindFramebuffer) {
 GL_METHOD(FramebufferTexture2D) {
   GL_BOILERPLATE;
 
-  GLenum target     = info[0]->Int32Value();
-  GLenum attachment = info[1]->Int32Value();
-  GLint textarget   = info[2]->Int32Value();
-  GLint texture     = info[3]->Int32Value();
-  GLint level       = info[4]->Int32Value();
+  GLenum target     = Nan::To<int32_t>(info[0]).ToChecked();
+  GLenum attachment = Nan::To<int32_t>(info[1]).ToChecked();
+  GLint textarget   = Nan::To<int32_t>(info[2]).ToChecked();
+  GLint texture     = Nan::To<int32_t>(info[3]).ToChecked();
+  GLint level       = Nan::To<int32_t>(info[4]).ToChecked();
 
   // Handle depth stencil case separately
   if(attachment == 0x821A) {
@@ -1028,14 +1038,14 @@ GL_METHOD(FramebufferTexture2D) {
 GL_METHOD(BufferData) {
   GL_BOILERPLATE;
 
-  GLint target = info[0]->Int32Value();
-  GLenum usage = info[2]->Int32Value();
+  GLint target = Nan::To<int32_t>(info[0]).ToChecked();
+  GLenum usage = Nan::To<int32_t>(info[2]).ToChecked();
 
   if(info[1]->IsObject()) {
     Nan::TypedArrayContents<char> array(info[1]);
     (inst->glBufferData)(target, array.length(), static_cast<void*>(*array), usage);
   } else if(info[1]->IsNumber()) {
-    (inst->glBufferData)(target, info[1]->Int32Value(), NULL, usage);
+    (inst->glBufferData)(target, Nan::To<int32_t>(info[1]).ToChecked(), NULL, usage);
   }
 }
 
@@ -1043,8 +1053,8 @@ GL_METHOD(BufferData) {
 GL_METHOD(BufferSubData) {
   GL_BOILERPLATE;
 
-  GLenum target = info[0]->Int32Value();
-  GLint offset  = info[1]->Int32Value();
+  GLenum target = Nan::To<int32_t>(info[0]).ToChecked();
+  GLint offset  = Nan::To<int32_t>(info[1]).ToChecked();
   Nan::TypedArrayContents<char> array(info[2]);
 
   (inst->glBufferSubData)(target, offset, array.length(), *array);
@@ -1054,7 +1064,7 @@ GL_METHOD(BufferSubData) {
 GL_METHOD(BlendEquation) {
   GL_BOILERPLATE;
 
-  GLenum mode = info[0]->Int32Value();;
+  GLenum mode = Nan::To<int32_t>(info[0]).ToChecked();
 
   (inst->glBlendEquation)(mode);
 }
@@ -1063,8 +1073,8 @@ GL_METHOD(BlendEquation) {
 GL_METHOD(BlendFunc) {
   GL_BOILERPLATE;
 
-  GLenum sfactor = info[0]->Int32Value();
-  GLenum dfactor = info[1]->Int32Value();
+  GLenum sfactor = Nan::To<int32_t>(info[0]).ToChecked();
+  GLenum dfactor = Nan::To<int32_t>(info[1]).ToChecked();
 
   (inst->glBlendFunc)(sfactor,dfactor);
 }
@@ -1073,18 +1083,18 @@ GL_METHOD(BlendFunc) {
 GL_METHOD(EnableVertexAttribArray) {
   GL_BOILERPLATE;
 
-  (inst->glEnableVertexAttribArray)(info[0]->Int32Value());
+  (inst->glEnableVertexAttribArray)(Nan::To<int32_t>(info[0]).ToChecked());
 }
 
 GL_METHOD(VertexAttribPointer) {
   GL_BOILERPLATE;
 
-  GLint index          = info[0]->Int32Value();
-  GLint size           = info[1]->Int32Value();
-  GLenum type          = info[2]->Int32Value();
-  GLboolean normalized = info[3]->BooleanValue();
-  GLint stride         = info[4]->Int32Value();
-  size_t offset        = info[5]->Uint32Value();
+  GLint index          = Nan::To<int32_t>(info[0]).ToChecked();
+  GLint size           = Nan::To<int32_t>(info[1]).ToChecked();
+  GLenum type          = Nan::To<int32_t>(info[2]).ToChecked();
+  GLboolean normalized = Nan::To<bool>(info[3]).ToChecked();
+  GLint stride         = Nan::To<int32_t>(info[4]).ToChecked();
+  size_t offset        = Nan::To<uint32_t>(info[5]).ToChecked();
 
   (inst->glVertexAttribPointer)(
     index,
@@ -1099,17 +1109,17 @@ GL_METHOD(VertexAttribPointer) {
 GL_METHOD(ActiveTexture) {
   GL_BOILERPLATE;
 
-  (inst->glActiveTexture)(info[0]->Int32Value());
+  (inst->glActiveTexture)(Nan::To<int32_t>(info[0]).ToChecked());
 }
 
 
 GL_METHOD(DrawElements) {
   GL_BOILERPLATE;
 
-  GLenum mode   = info[0]->Int32Value();
-  GLint count   = info[1]->Int32Value();
-  GLenum type   = info[2]->Int32Value();
-  size_t offset = info[3]->Uint32Value();
+  GLenum mode   = Nan::To<int32_t>(info[0]).ToChecked();
+  GLint count   = Nan::To<int32_t>(info[1]).ToChecked();
+  GLenum type   = Nan::To<int32_t>(info[2]).ToChecked();
+  size_t offset = Nan::To<uint32_t>(info[3]).ToChecked();
 
   (inst->glDrawElements)(mode, count, type, reinterpret_cast<GLvoid*>(offset));
 }
@@ -1130,8 +1140,8 @@ GL_METHOD(Finish) {
 GL_METHOD(VertexAttrib1f) {
   GL_BOILERPLATE;
 
-  GLuint index = info[0]->Int32Value();
-  GLfloat x = static_cast<GLfloat>(info[1]->NumberValue());
+  GLuint index = Nan::To<int32_t>(info[0]).ToChecked();
+  GLfloat x = static_cast<GLfloat>(Nan::To<double>(info[1]).ToChecked());
 
   (inst->glVertexAttrib1f)(index, x);
 }
@@ -1139,9 +1149,9 @@ GL_METHOD(VertexAttrib1f) {
 GL_METHOD(VertexAttrib2f) {
   GL_BOILERPLATE;
 
-  GLuint index = info[0]->Int32Value();
-  GLfloat x = static_cast<GLfloat>(info[1]->NumberValue());
-  GLfloat y = static_cast<GLfloat>(info[2]->NumberValue());
+  GLuint index = Nan::To<int32_t>(info[0]).ToChecked();
+  GLfloat x = static_cast<GLfloat>(Nan::To<double>(info[1]).ToChecked());
+  GLfloat y = static_cast<GLfloat>(Nan::To<double>(info[2]).ToChecked());
 
   (inst->glVertexAttrib2f)(index, x, y);
 }
@@ -1149,10 +1159,10 @@ GL_METHOD(VertexAttrib2f) {
 GL_METHOD(VertexAttrib3f) {
   GL_BOILERPLATE;
 
-  GLuint index = info[0]->Int32Value();
-  GLfloat x = static_cast<GLfloat>(info[1]->NumberValue());
-  GLfloat y = static_cast<GLfloat>(info[2]->NumberValue());
-  GLfloat z = static_cast<GLfloat>(info[3]->NumberValue());
+  GLuint index = Nan::To<int32_t>(info[0]).ToChecked();
+  GLfloat x = static_cast<GLfloat>(Nan::To<double>(info[1]).ToChecked());
+  GLfloat y = static_cast<GLfloat>(Nan::To<double>(info[2]).ToChecked());
+  GLfloat z = static_cast<GLfloat>(Nan::To<double>(info[3]).ToChecked());
 
   (inst->glVertexAttrib3f)(index, x, y, z);
 }
@@ -1160,11 +1170,11 @@ GL_METHOD(VertexAttrib3f) {
 GL_METHOD(VertexAttrib4f) {
   GL_BOILERPLATE;
 
-  GLuint index = info[0]->Int32Value();
-  GLfloat x = static_cast<GLfloat>(info[1]->NumberValue());
-  GLfloat y = static_cast<GLfloat>(info[2]->NumberValue());
-  GLfloat z = static_cast<GLfloat>(info[3]->NumberValue());
-  GLfloat w = static_cast<GLfloat>(info[4]->NumberValue());
+  GLuint index = Nan::To<int32_t>(info[0]).ToChecked();
+  GLfloat x = static_cast<GLfloat>(Nan::To<double>(info[1]).ToChecked());
+  GLfloat y = static_cast<GLfloat>(Nan::To<double>(info[2]).ToChecked());
+  GLfloat z = static_cast<GLfloat>(Nan::To<double>(info[3]).ToChecked());
+  GLfloat w = static_cast<GLfloat>(Nan::To<double>(info[4]).ToChecked());
 
   (inst->glVertexAttrib4f)(index, x, y, z, w);
 }
@@ -1172,10 +1182,10 @@ GL_METHOD(VertexAttrib4f) {
 GL_METHOD(BlendColor) {
   GL_BOILERPLATE;
 
-  GLclampf r = static_cast<GLclampf>(info[0]->NumberValue());
-  GLclampf g = static_cast<GLclampf>(info[1]->NumberValue());
-  GLclampf b = static_cast<GLclampf>(info[2]->NumberValue());
-  GLclampf a = static_cast<GLclampf>(info[3]->NumberValue());
+  GLclampf r = static_cast<GLclampf>(Nan::To<double>(info[0]).ToChecked());
+  GLclampf g = static_cast<GLclampf>(Nan::To<double>(info[1]).ToChecked());
+  GLclampf b = static_cast<GLclampf>(Nan::To<double>(info[2]).ToChecked());
+  GLclampf a = static_cast<GLclampf>(Nan::To<double>(info[3]).ToChecked());
 
   (inst->glBlendColor)(r, g, b, a);
 }
@@ -1183,8 +1193,8 @@ GL_METHOD(BlendColor) {
 GL_METHOD(BlendEquationSeparate) {
   GL_BOILERPLATE;
 
-  GLenum mode_rgb   = info[0]->Int32Value();
-  GLenum mode_alpha = info[1]->Int32Value();
+  GLenum mode_rgb   = Nan::To<int32_t>(info[0]).ToChecked();
+  GLenum mode_alpha = Nan::To<int32_t>(info[1]).ToChecked();
 
   (inst->glBlendEquationSeparate)(mode_rgb, mode_alpha);
 }
@@ -1192,10 +1202,10 @@ GL_METHOD(BlendEquationSeparate) {
 GL_METHOD(BlendFuncSeparate) {
   GL_BOILERPLATE;
 
-  GLenum src_rgb   = info[0]->Int32Value();
-  GLenum dst_rgb   = info[1]->Int32Value();
-  GLenum src_alpha = info[2]->Int32Value();
-  GLenum dst_alpha = info[3]->Int32Value();
+  GLenum src_rgb   = Nan::To<int32_t>(info[0]).ToChecked();
+  GLenum dst_rgb   = Nan::To<int32_t>(info[1]).ToChecked();
+  GLenum src_alpha = Nan::To<int32_t>(info[2]).ToChecked();
+  GLenum dst_alpha = Nan::To<int32_t>(info[3]).ToChecked();
 
   (inst->glBlendFuncSeparate)(src_rgb, dst_rgb, src_alpha, dst_alpha);
 }
@@ -1203,7 +1213,7 @@ GL_METHOD(BlendFuncSeparate) {
 GL_METHOD(ClearStencil) {
   GL_BOILERPLATE;
 
-  GLint s = info[0]->Int32Value();
+  GLint s = Nan::To<int32_t>(info[0]).ToChecked();
 
   (inst->glClearStencil)(s);
 }
@@ -1211,10 +1221,10 @@ GL_METHOD(ClearStencil) {
 GL_METHOD(ColorMask) {
   GL_BOILERPLATE;
 
-  GLboolean r = info[0]->BooleanValue();
-  GLboolean g = info[1]->BooleanValue();
-  GLboolean b = info[2]->BooleanValue();
-  GLboolean a = info[3]->BooleanValue();
+  GLboolean r = (Nan::To<bool>(info[0]).ToChecked());
+  GLboolean g = (Nan::To<bool>(info[1]).ToChecked());
+  GLboolean b = (Nan::To<bool>(info[2]).ToChecked());
+  GLboolean a = (Nan::To<bool>(info[3]).ToChecked());
 
   (inst->glColorMask)(r, g, b, a);
 }
@@ -1222,14 +1232,14 @@ GL_METHOD(ColorMask) {
 GL_METHOD(CopyTexImage2D) {
   GL_BOILERPLATE;
 
-  GLenum target         = info[0]->Int32Value();
-  GLint level           = info[1]->Int32Value();
-  GLenum internalformat = info[2]->Int32Value();
-  GLint x               = info[3]->Int32Value();
-  GLint y               = info[4]->Int32Value();
-  GLsizei width         = info[5]->Int32Value();
-  GLsizei height        = info[6]->Int32Value();
-  GLint border          = info[7]->Int32Value();
+  GLenum target         = Nan::To<int32_t>(info[0]).ToChecked();
+  GLint level           = Nan::To<int32_t>(info[1]).ToChecked();
+  GLenum internalformat = Nan::To<int32_t>(info[2]).ToChecked();
+  GLint x               = Nan::To<int32_t>(info[3]).ToChecked();
+  GLint y               = Nan::To<int32_t>(info[4]).ToChecked();
+  GLsizei width         = Nan::To<int32_t>(info[5]).ToChecked();
+  GLsizei height        = Nan::To<int32_t>(info[6]).ToChecked();
+  GLint border          = Nan::To<int32_t>(info[7]).ToChecked();
 
   (inst->glCopyTexImage2D)(target, level, internalformat, x, y, width, height, border);
 }
@@ -1237,14 +1247,14 @@ GL_METHOD(CopyTexImage2D) {
 GL_METHOD(CopyTexSubImage2D) {
   GL_BOILERPLATE;
 
-  GLenum target  = info[0]->Int32Value();
-  GLint level    = info[1]->Int32Value();
-  GLint xoffset  = info[2]->Int32Value();
-  GLint yoffset  = info[3]->Int32Value();
-  GLint x        = info[4]->Int32Value();
-  GLint y        = info[5]->Int32Value();
-  GLsizei width  = info[6]->Int32Value();
-  GLsizei height = info[7]->Int32Value();
+  GLenum target  = Nan::To<int32_t>(info[0]).ToChecked();
+  GLint level    = Nan::To<int32_t>(info[1]).ToChecked();
+  GLint xoffset  = Nan::To<int32_t>(info[2]).ToChecked();
+  GLint yoffset  = Nan::To<int32_t>(info[3]).ToChecked();
+  GLint x        = Nan::To<int32_t>(info[4]).ToChecked();
+  GLint y        = Nan::To<int32_t>(info[5]).ToChecked();
+  GLsizei width  = Nan::To<int32_t>(info[6]).ToChecked();
+  GLsizei height = Nan::To<int32_t>(info[7]).ToChecked();
 
   (inst->glCopyTexSubImage2D)(target, level, xoffset, yoffset, x, y, width, height);
 }
@@ -1252,7 +1262,7 @@ GL_METHOD(CopyTexSubImage2D) {
 GL_METHOD(CullFace) {
   GL_BOILERPLATE;
 
-  GLenum mode = info[0]->Int32Value();
+  GLenum mode = Nan::To<int32_t>(info[0]).ToChecked();
 
   (inst->glCullFace)(mode);
 }
@@ -1260,7 +1270,7 @@ GL_METHOD(CullFace) {
 GL_METHOD(DepthMask) {
   GL_BOILERPLATE;
 
-  GLboolean flag = info[0]->BooleanValue();
+  GLboolean flag = (Nan::To<bool>(info[0]).ToChecked());
 
   (inst->glDepthMask)(flag);
 }
@@ -1268,8 +1278,8 @@ GL_METHOD(DepthMask) {
 GL_METHOD(DepthRange) {
   GL_BOILERPLATE;
 
-  GLclampf zNear  = static_cast<GLclampf>(info[0]->NumberValue());
-  GLclampf zFar   = static_cast<GLclampf>(info[1]->NumberValue());
+  GLclampf zNear  = static_cast<GLclampf>(Nan::To<double>(info[0]).ToChecked());
+  GLclampf zFar   = static_cast<GLclampf>(Nan::To<double>(info[1]).ToChecked());
 
   (inst->glDepthRangef)(zNear, zFar);
 }
@@ -1277,7 +1287,7 @@ GL_METHOD(DepthRange) {
 GL_METHOD(DisableVertexAttribArray) {
   GL_BOILERPLATE;
 
-  GLuint index = info[0]->Int32Value();
+  GLuint index = Nan::To<int32_t>(info[0]).ToChecked();
 
   (inst->glDisableVertexAttribArray)(index);
 }
@@ -1285,8 +1295,8 @@ GL_METHOD(DisableVertexAttribArray) {
 GL_METHOD(Hint) {
   GL_BOILERPLATE;
 
-  GLenum target = info[0]->Int32Value();
-  GLenum mode   = info[1]->Int32Value();
+  GLenum target = Nan::To<int32_t>(info[0]).ToChecked();
+  GLenum mode   = Nan::To<int32_t>(info[1]).ToChecked();
 
   (inst->glHint)(target, mode);
 }
@@ -1294,7 +1304,7 @@ GL_METHOD(Hint) {
 GL_METHOD(IsEnabled) {
   GL_BOILERPLATE;
 
-  GLenum cap = info[0]->Int32Value();
+  GLenum cap = Nan::To<int32_t>(info[0]).ToChecked();
   bool ret = (inst->glIsEnabled)(cap) != 0;
 
   info.GetReturnValue().Set(Nan::New<v8::Boolean>(ret));
@@ -1303,7 +1313,7 @@ GL_METHOD(IsEnabled) {
 GL_METHOD(LineWidth) {
   GL_BOILERPLATE;
 
-  GLfloat width = (GLfloat)info[0]->NumberValue();
+  GLfloat width = (GLfloat)(Nan::To<double>(info[0]).ToChecked());
 
   (inst->glLineWidth)(width);
 }
@@ -1311,8 +1321,8 @@ GL_METHOD(LineWidth) {
 GL_METHOD(PolygonOffset) {
   GL_BOILERPLATE;
 
-  GLfloat factor  = static_cast<GLfloat>(info[0]->NumberValue());
-  GLfloat units   = static_cast<GLfloat>(info[1]->NumberValue());
+  GLfloat factor  = static_cast<GLfloat>(Nan::To<double>(info[0]).ToChecked());
+  GLfloat units   = static_cast<GLfloat>(Nan::To<double>(info[1]).ToChecked());
 
   (inst->glPolygonOffset)(factor, units);
 }
@@ -1320,8 +1330,8 @@ GL_METHOD(PolygonOffset) {
 GL_METHOD(SampleCoverage) {
   GL_BOILERPLATE;
 
-  GLclampf value   = static_cast<GLclampf>(info[0]->NumberValue());
-  GLboolean invert = info[1]->BooleanValue();
+  GLclampf value   = static_cast<GLclampf>(Nan::To<double>(info[0]).ToChecked());
+  GLboolean invert = (Nan::To<bool>(info[1]).ToChecked());
 
   (inst->glSampleCoverage)(value, invert);
 }
@@ -1329,10 +1339,10 @@ GL_METHOD(SampleCoverage) {
 GL_METHOD(Scissor) {
   GL_BOILERPLATE;
 
-  GLint x        = info[0]->Int32Value();
-  GLint y        = info[1]->Int32Value();
-  GLsizei width  = info[2]->Int32Value();
-  GLsizei height = info[3]->Int32Value();
+  GLint x        = Nan::To<int32_t>(info[0]).ToChecked();
+  GLint y        = Nan::To<int32_t>(info[1]).ToChecked();
+  GLsizei width  = Nan::To<int32_t>(info[2]).ToChecked();
+  GLsizei height = Nan::To<int32_t>(info[3]).ToChecked();
 
   (inst->glScissor)(x, y, width, height);
 }
@@ -1340,9 +1350,9 @@ GL_METHOD(Scissor) {
 GL_METHOD(StencilFunc) {
   GL_BOILERPLATE;
 
-  GLenum func = info[0]->Int32Value();
-  GLint ref   = info[1]->Int32Value();
-  GLuint mask = info[2]->Uint32Value();
+  GLenum func = Nan::To<int32_t>(info[0]).ToChecked();
+  GLint ref   = Nan::To<int32_t>(info[1]).ToChecked();
+  GLuint mask = Nan::To<uint32_t>(info[2]).ToChecked();
 
   (inst->glStencilFunc)(func, ref, mask);
 }
@@ -1350,10 +1360,10 @@ GL_METHOD(StencilFunc) {
 GL_METHOD(StencilFuncSeparate) {
   GL_BOILERPLATE;
 
-  GLenum face = info[0]->Int32Value();
-  GLenum func = info[1]->Int32Value();
-  GLint ref   = info[2]->Int32Value();
-  GLuint mask = info[3]->Uint32Value();
+  GLenum face = Nan::To<int32_t>(info[0]).ToChecked();
+  GLenum func = Nan::To<int32_t>(info[1]).ToChecked();
+  GLint ref   = Nan::To<int32_t>(info[2]).ToChecked();
+  GLuint mask = Nan::To<uint32_t>(info[3]).ToChecked();
 
   (inst->glStencilFuncSeparate)(face, func, ref, mask);
 }
@@ -1361,7 +1371,7 @@ GL_METHOD(StencilFuncSeparate) {
 GL_METHOD(StencilMask) {
   GL_BOILERPLATE;
 
-  GLuint mask = info[0]->Uint32Value();
+  GLuint mask = Nan::To<uint32_t>(info[0]).ToChecked();
 
   (inst->glStencilMask)(mask);
 }
@@ -1369,8 +1379,8 @@ GL_METHOD(StencilMask) {
 GL_METHOD(StencilMaskSeparate) {
   GL_BOILERPLATE;
 
-  GLenum face = info[0]->Int32Value();
-  GLuint mask = info[1]->Uint32Value();
+  GLenum face = Nan::To<int32_t>(info[0]).ToChecked();
+  GLuint mask = Nan::To<uint32_t>(info[1]).ToChecked();
 
   (inst->glStencilMaskSeparate)(face, mask);
 }
@@ -1378,9 +1388,9 @@ GL_METHOD(StencilMaskSeparate) {
 GL_METHOD(StencilOp) {
   GL_BOILERPLATE;
 
-  GLenum fail   = info[0]->Int32Value();
-  GLenum zfail  = info[1]->Int32Value();
-  GLenum zpass  = info[2]->Int32Value();
+  GLenum fail   = Nan::To<int32_t>(info[0]).ToChecked();
+  GLenum zfail  = Nan::To<int32_t>(info[1]).ToChecked();
+  GLenum zpass  = Nan::To<int32_t>(info[2]).ToChecked();
 
   (inst->glStencilOp)(fail, zfail, zpass);
 }
@@ -1388,10 +1398,10 @@ GL_METHOD(StencilOp) {
 GL_METHOD(StencilOpSeparate) {
   GL_BOILERPLATE;
 
-  GLenum face   = info[0]->Int32Value();
-  GLenum fail   = info[1]->Int32Value();
-  GLenum zfail  = info[2]->Int32Value();
-  GLenum zpass  = info[3]->Int32Value();
+  GLenum face   = Nan::To<int32_t>(info[0]).ToChecked();
+  GLenum fail   = Nan::To<int32_t>(info[1]).ToChecked();
+  GLenum zfail  = Nan::To<int32_t>(info[2]).ToChecked();
+  GLenum zpass  = Nan::To<int32_t>(info[3]).ToChecked();
 
   (inst->glStencilOpSeparate)(face, fail, zfail, zpass);
 }
@@ -1399,8 +1409,8 @@ GL_METHOD(StencilOpSeparate) {
 GL_METHOD(BindRenderbuffer) {
   GL_BOILERPLATE;
 
-  GLenum target = info[0]->Int32Value();
-  GLuint buffer = info[1]->Uint32Value();
+  GLenum target = Nan::To<int32_t>(info[0]).ToChecked();
+  GLuint buffer = Nan::To<uint32_t>(info[1]).ToChecked();
 
   (inst->glBindRenderbuffer)(target, buffer);
 }
@@ -1419,7 +1429,7 @@ GL_METHOD(CreateRenderbuffer) {
 GL_METHOD(DeleteBuffer) {
   GL_BOILERPLATE;
 
-  GLuint buffer = (GLuint)info[0]->Uint32Value();
+  GLuint buffer = (GLuint)Nan::To<uint32_t>(info[0]).ToChecked();
 
   inst->unregisterGLObj(GLOBJECT_TYPE_BUFFER, buffer);
 
@@ -1429,7 +1439,7 @@ GL_METHOD(DeleteBuffer) {
 GL_METHOD(DeleteFramebuffer) {
   GL_BOILERPLATE;
 
-  GLuint buffer = info[0]->Uint32Value();
+  GLuint buffer = Nan::To<uint32_t>(info[0]).ToChecked();
 
   inst->unregisterGLObj(GLOBJECT_TYPE_FRAMEBUFFER, buffer);
 
@@ -1439,7 +1449,7 @@ GL_METHOD(DeleteFramebuffer) {
 GL_METHOD(DeleteProgram) {
   GL_BOILERPLATE;
 
-  GLuint program = info[0]->Uint32Value();
+  GLuint program = Nan::To<uint32_t>(info[0]).ToChecked();
 
   inst->unregisterGLObj(GLOBJECT_TYPE_PROGRAM, program);
 
@@ -1449,7 +1459,7 @@ GL_METHOD(DeleteProgram) {
 GL_METHOD(DeleteRenderbuffer) {
   GL_BOILERPLATE;
 
-  GLuint renderbuffer = info[0]->Uint32Value();
+  GLuint renderbuffer = Nan::To<uint32_t>(info[0]).ToChecked();
 
   inst->unregisterGLObj(GLOBJECT_TYPE_RENDERBUFFER, renderbuffer);
 
@@ -1459,7 +1469,7 @@ GL_METHOD(DeleteRenderbuffer) {
 GL_METHOD(DeleteShader) {
   GL_BOILERPLATE;
 
-  GLuint shader = info[0]->Uint32Value();
+  GLuint shader = Nan::To<uint32_t>(info[0]).ToChecked();
 
   inst->unregisterGLObj(GLOBJECT_TYPE_SHADER, shader);
 
@@ -1469,7 +1479,7 @@ GL_METHOD(DeleteShader) {
 GL_METHOD(DeleteTexture) {
   GL_BOILERPLATE;
 
-  GLuint texture = info[0]->Uint32Value();
+  GLuint texture = Nan::To<uint32_t>(info[0]).ToChecked();
 
   inst->unregisterGLObj(GLOBJECT_TYPE_TEXTURE, texture);
 
@@ -1479,8 +1489,8 @@ GL_METHOD(DeleteTexture) {
 GL_METHOD(DetachShader) {
   GL_BOILERPLATE;
 
-  GLuint program  = info[0]->Uint32Value();
-  GLuint shader   = info[1]->Uint32Value();
+  GLuint program  = Nan::To<uint32_t>(info[0]).ToChecked();
+  GLuint shader   = Nan::To<uint32_t>(info[1]).ToChecked();
 
   (inst->glDetachShader)(program, shader);
 }
@@ -1488,10 +1498,10 @@ GL_METHOD(DetachShader) {
 GL_METHOD(FramebufferRenderbuffer) {
   GL_BOILERPLATE;
 
-  GLenum target             = info[0]->Int32Value();
-  GLenum attachment         = info[1]->Int32Value();
-  GLenum renderbuffertarget = info[2]->Int32Value();
-  GLuint renderbuffer       = info[3]->Uint32Value();
+  GLenum target             = Nan::To<int32_t>(info[0]).ToChecked();
+  GLenum attachment         = Nan::To<int32_t>(info[1]).ToChecked();
+  GLenum renderbuffertarget = Nan::To<int32_t>(info[2]).ToChecked();
+  GLuint renderbuffer       = Nan::To<uint32_t>(info[3]).ToChecked();
 
   // Handle depth stencil case separately
   if(attachment == 0x821A) {
@@ -1517,8 +1527,8 @@ GL_METHOD(FramebufferRenderbuffer) {
 GL_METHOD(GetVertexAttribOffset) {
   GL_BOILERPLATE;
 
-  GLuint index = info[0]->Uint32Value();
-  GLenum pname = info[1]->Int32Value();
+  GLuint index = Nan::To<uint32_t>(info[0]).ToChecked();
+  GLenum pname = Nan::To<int32_t>(info[1]).ToChecked();
 
   void *ret = NULL;
   (inst->glGetVertexAttribPointerv)(index, pname, &ret);
@@ -1532,7 +1542,7 @@ GL_METHOD(IsBuffer) {
 
   info.GetReturnValue().Set(
     Nan::New<v8::Boolean>(
-      (inst->glIsBuffer)(info[0]->Uint32Value()) != 0));
+      (inst->glIsBuffer)(Nan::To<uint32_t>(info[0]).ToChecked()) != 0));
 }
 
 GL_METHOD(IsFramebuffer) {
@@ -1540,7 +1550,7 @@ GL_METHOD(IsFramebuffer) {
 
   info.GetReturnValue().Set(
     Nan::New<v8::Boolean>(
-      (inst->glIsFramebuffer)(info[0]->Uint32Value()) != 0));
+      (inst->glIsFramebuffer)(Nan::To<uint32_t>(info[0]).ToChecked()) != 0));
 }
 
 GL_METHOD(IsProgram) {
@@ -1548,7 +1558,7 @@ GL_METHOD(IsProgram) {
 
   info.GetReturnValue().Set(
     Nan::New<v8::Boolean>(
-      (inst->glIsProgram)(info[0]->Uint32Value()) != 0));
+      (inst->glIsProgram)(Nan::To<uint32_t>(info[0]).ToChecked()) != 0));
 }
 
 GL_METHOD(IsRenderbuffer) {
@@ -1556,7 +1566,7 @@ GL_METHOD(IsRenderbuffer) {
 
   info.GetReturnValue().Set(
     Nan::New<v8::Boolean>(
-      (inst->glIsRenderbuffer)(info[0]->Uint32Value()) != 0));
+      (inst->glIsRenderbuffer)(Nan::To<uint32_t>(info[0]).ToChecked()) != 0));
 }
 
 GL_METHOD(IsShader) {
@@ -1564,7 +1574,7 @@ GL_METHOD(IsShader) {
 
   info.GetReturnValue().Set(
     Nan::New<v8::Boolean>(
-      (inst->glIsShader)(info[0]->Uint32Value()) != 0));
+      (inst->glIsShader)(Nan::To<uint32_t>(info[0]).ToChecked()) != 0));
 }
 
 GL_METHOD(IsTexture) {
@@ -1572,16 +1582,16 @@ GL_METHOD(IsTexture) {
 
   info.GetReturnValue().Set(
     Nan::New<v8::Boolean>(
-      (inst->glIsTexture)(info[0]->Uint32Value()) != 0));
+      (inst->glIsTexture)(Nan::To<uint32_t>(info[0]).ToChecked()) != 0));
 }
 
 GL_METHOD(RenderbufferStorage) {
   GL_BOILERPLATE;
 
-  GLenum target         = info[0]->Int32Value();
-  GLenum internalformat = info[1]->Int32Value();
-  GLsizei width         = info[2]->Int32Value();
-  GLsizei height        = info[3]->Int32Value();
+  GLenum target         = Nan::To<int32_t>(info[0]).ToChecked();
+  GLenum internalformat = Nan::To<int32_t>(info[1]).ToChecked();
+  GLsizei width         = Nan::To<int32_t>(info[2]).ToChecked();
+  GLsizei height        = Nan::To<int32_t>(info[3]).ToChecked();
 
   //In WebGL, we map GL_DEPTH_STENCIL to GL_DEPTH24_STENCIL8
   if (internalformat == GL_DEPTH_STENCIL_OES) {
@@ -1596,7 +1606,7 @@ GL_METHOD(RenderbufferStorage) {
 GL_METHOD(GetShaderSource) {
   GL_BOILERPLATE;
 
-  GLint shader = info[0]->Int32Value();
+  GLint shader = Nan::To<int32_t>(info[0]).ToChecked();
 
   GLint len;
   (inst->glGetShaderiv)(shader, GL_SHADER_SOURCE_LENGTH, &len);
@@ -1612,12 +1622,12 @@ GL_METHOD(GetShaderSource) {
 GL_METHOD(ReadPixels) {
   GL_BOILERPLATE;
 
-  GLint x        = info[0]->Int32Value();
-  GLint y        = info[1]->Int32Value();
-  GLsizei width  = info[2]->Int32Value();
-  GLsizei height = info[3]->Int32Value();
-  GLenum format  = info[4]->Int32Value();
-  GLenum type    = info[5]->Int32Value();
+  GLint x        = Nan::To<int32_t>(info[0]).ToChecked();
+  GLint y        = Nan::To<int32_t>(info[1]).ToChecked();
+  GLsizei width  = Nan::To<int32_t>(info[2]).ToChecked();
+  GLsizei height = Nan::To<int32_t>(info[3]).ToChecked();
+  GLenum format  = Nan::To<int32_t>(info[4]).ToChecked();
+  GLenum type    = Nan::To<int32_t>(info[5]).ToChecked();
   Nan::TypedArrayContents<char> pixels(info[6]);
 
   (inst->glReadPixels)(x, y, width, height, format, type, *pixels);
@@ -1626,20 +1636,25 @@ GL_METHOD(ReadPixels) {
 GL_METHOD(GetTexParameter) {
   GL_BOILERPLATE;
 
-  GLenum target     = info[0]->Int32Value();
-  GLenum pname      = info[1]->Int32Value();
-  GLint param_value = 0;
-
-  (inst->glGetTexParameteriv)(target, pname, &param_value);
-
-  info.GetReturnValue().Set(Nan::New<v8::Integer>(param_value));
+  GLenum target     = Nan::To<int32_t>(info[0]).ToChecked();
+  GLenum pname      = Nan::To<int32_t>(info[1]).ToChecked();
+  
+  if (pname == GL_TEXTURE_MAX_ANISOTROPY_EXT) {
+    GLfloat param_value = 0;
+    (inst->glGetTexParameterfv)(target, pname, &param_value);
+    info.GetReturnValue().Set(Nan::New<v8::Number>(param_value));
+  } else {
+    GLint param_value = 0;
+    (inst->glGetTexParameteriv)(target, pname, &param_value);
+    info.GetReturnValue().Set(Nan::New<v8::Integer>(param_value));
+  }
 }
 
 GL_METHOD(GetActiveAttrib) {
   GL_BOILERPLATE;
 
-  GLuint program = info[0]->Int32Value();
-  GLuint index   = info[1]->Int32Value();
+  GLuint program = Nan::To<int32_t>(info[0]).ToChecked();
+  GLuint index   = Nan::To<int32_t>(info[1]).ToChecked();
 
   GLint maxLength;
   (inst->glGetProgramiv)(program, GL_ACTIVE_ATTRIBUTE_MAX_LENGTH, &maxLength);
@@ -1672,8 +1687,8 @@ GL_METHOD(GetActiveAttrib) {
 GL_METHOD(GetActiveUniform) {
   GL_BOILERPLATE;
 
-  GLuint program = info[0]->Int32Value();
-  GLuint index   = info[1]->Int32Value();
+  GLuint program = Nan::To<int32_t>(info[0]).ToChecked();
+  GLuint index   = Nan::To<int32_t>(info[1]).ToChecked();
 
   GLint maxLength;
   (inst->glGetProgramiv)(program, GL_ACTIVE_UNIFORM_MAX_LENGTH, &maxLength);
@@ -1707,7 +1722,7 @@ GL_METHOD(GetActiveUniform) {
 GL_METHOD(GetAttachedShaders) {
   GL_BOILERPLATE;
 
-  GLuint program = info[0]->Int32Value();
+  GLuint program = Nan::To<int32_t>(info[0]).ToChecked();
 
   GLint numAttachedShaders;
   (inst->glGetProgramiv)(program, GL_ATTACHED_SHADERS, &numAttachedShaders);
@@ -1728,7 +1743,7 @@ GL_METHOD(GetAttachedShaders) {
 
 GL_METHOD(GetParameter) {
   GL_BOILERPLATE;
-  GLenum name = info[0]->Int32Value();
+  GLenum name = Nan::To<int32_t>(info[0]).ToChecked();
 
   switch(name) {
     case 0x9240 /* UNPACK_FLIP_Y_WEBGL */:
@@ -1769,6 +1784,7 @@ GL_METHOD(GetParameter) {
     case GL_POLYGON_OFFSET_FACTOR:
     case GL_POLYGON_OFFSET_UNITS:
     case GL_SAMPLE_COVERAGE_VALUE:
+    case GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT:
     {
       GLfloat params;
       (inst->glGetFloatv)(name, &params);
@@ -1880,8 +1896,8 @@ GL_METHOD(GetParameter) {
 GL_METHOD(GetBufferParameter) {
   GL_BOILERPLATE;
 
-  GLenum target = info[0]->Int32Value();
-  GLenum pname  = info[1]->Int32Value();
+  GLenum target = Nan::To<int32_t>(info[0]).ToChecked();
+  GLenum pname  = Nan::To<int32_t>(info[1]).ToChecked();
 
   GLint params;
   (inst->glGetBufferParameteriv)(target, pname, &params);
@@ -1892,9 +1908,9 @@ GL_METHOD(GetBufferParameter) {
 GL_METHOD(GetFramebufferAttachmentParameter) {
   GL_BOILERPLATE;
 
-  GLenum target     = info[0]->Int32Value();
-  GLenum attachment = info[1]->Int32Value();
-  GLenum pname      = info[2]->Int32Value();
+  GLenum target     = Nan::To<int32_t>(info[0]).ToChecked();
+  GLenum attachment = Nan::To<int32_t>(info[1]).ToChecked();
+  GLenum pname      = Nan::To<int32_t>(info[2]).ToChecked();
 
   GLint params;
   (inst->glGetFramebufferAttachmentParameteriv)(target, attachment, pname, &params);
@@ -1905,7 +1921,7 @@ GL_METHOD(GetFramebufferAttachmentParameter) {
 GL_METHOD(GetProgramInfoLog) {
   GL_BOILERPLATE;
 
-  GLuint program = info[0]->Int32Value();
+  GLuint program = Nan::To<int32_t>(info[0]).ToChecked();
 
   GLint infoLogLength;
   (inst->glGetProgramiv)(program, GL_INFO_LOG_LENGTH, &infoLogLength);
@@ -1922,8 +1938,8 @@ GL_METHOD(GetProgramInfoLog) {
 GL_METHOD(GetShaderPrecisionFormat) {
   GL_BOILERPLATE;
 
-  GLenum shaderType    = info[0]->Int32Value();
-  GLenum precisionType = info[1]->Int32Value();
+  GLenum shaderType    = Nan::To<int32_t>(info[0]).ToChecked();
+  GLenum precisionType = Nan::To<int32_t>(info[1]).ToChecked();
 
   GLint range[2];
   GLint precision;
@@ -1947,8 +1963,8 @@ GL_METHOD(GetShaderPrecisionFormat) {
 GL_METHOD(GetRenderbufferParameter) {
   GL_BOILERPLATE;
 
-  GLenum target = info[0]->Int32Value();
-  GLenum pname  = info[1]->Int32Value();
+  GLenum target = Nan::To<int32_t>(info[0]).ToChecked();
+  GLenum pname  = Nan::To<int32_t>(info[1]).ToChecked();
 
   int value;
   (inst->glGetRenderbufferParameteriv)(target, pname, &value);
@@ -1959,10 +1975,10 @@ GL_METHOD(GetRenderbufferParameter) {
 GL_METHOD(GetUniform) {
   GL_BOILERPLATE;
 
-  GLint program  = info[0]->Int32Value();
-  GLint location = info[1]->Int32Value();
+  GLint program  = Nan::To<int32_t>(info[0]).ToChecked();
+  GLint location = Nan::To<int32_t>(info[1]).ToChecked();
 
-  float data[4096];
+  float data[16];
   (inst->glGetUniformfv)(program, location, data);
 
   v8::Local<v8::Array> arr = Nan::New<v8::Array>(16);
@@ -1976,8 +1992,8 @@ GL_METHOD(GetUniform) {
 GL_METHOD(GetVertexAttrib) {
   GL_BOILERPLATE;
 
-  GLint index  = info[0]->Int32Value();
-  GLenum pname = info[1]->Int32Value();
+  GLint index  = Nan::To<int32_t>(info[0]).ToChecked();
+  GLenum pname = Nan::To<int32_t>(info[1]).ToChecked();
 
   GLint value;
 
@@ -2068,9 +2084,101 @@ GL_METHOD(CheckAngleInstancedArraysSupport) {
 GL_METHOD(CheckFramebufferStatus) {
   GL_BOILERPLATE;
 
-  GLenum target = info[0]->Int32Value();
+  GLenum target = Nan::To<int32_t>(info[0]).ToChecked();
 
   info.GetReturnValue().Set(
     Nan::New<v8::Integer>(
       static_cast<int>((inst->glCheckFramebufferStatus)(target))));
+}
+
+GL_METHOD(DrawBuffersWEBGL) {
+  GL_BOILERPLATE;
+
+  v8::Local<v8::Array> buffersArray = v8::Local<v8::Array>::Cast(info[0]);
+  GLuint numBuffers = buffersArray->Length();
+  GLenum* buffers = new GLenum[numBuffers];
+
+  for (GLuint i = 0; i < numBuffers; i++) {
+    buffers[i] = Nan::Get(buffersArray, i).ToLocalChecked()->Uint32Value(Nan::GetCurrentContext()).ToChecked();
+  }
+
+  (inst->glDrawBuffersEXT)(numBuffers, buffers);
+
+  delete[] buffers;
+}
+
+GL_METHOD(EXTWEBGL_draw_buffers) {
+  v8::Local<v8::Object> result = Nan::New<v8::Object>();
+  Nan::Set(result, Nan::New("COLOR_ATTACHMENT0_WEBGL").ToLocalChecked(), Nan::New<v8::Number>(GL_COLOR_ATTACHMENT0_EXT));
+  Nan::Set(result, Nan::New("COLOR_ATTACHMENT1_WEBGL").ToLocalChecked(), Nan::New<v8::Number>(GL_COLOR_ATTACHMENT1_EXT));
+  Nan::Set(result, Nan::New("COLOR_ATTACHMENT2_WEBGL").ToLocalChecked(), Nan::New<v8::Number>(GL_COLOR_ATTACHMENT2_EXT));
+  Nan::Set(result, Nan::New("COLOR_ATTACHMENT3_WEBGL").ToLocalChecked(), Nan::New<v8::Number>(GL_COLOR_ATTACHMENT3_EXT));
+  Nan::Set(result, Nan::New("COLOR_ATTACHMENT4_WEBGL").ToLocalChecked(), Nan::New<v8::Number>(GL_COLOR_ATTACHMENT4_EXT));
+  Nan::Set(result, Nan::New("COLOR_ATTACHMENT5_WEBGL").ToLocalChecked(), Nan::New<v8::Number>(GL_COLOR_ATTACHMENT5_EXT));
+  Nan::Set(result, Nan::New("COLOR_ATTACHMENT6_WEBGL").ToLocalChecked(), Nan::New<v8::Number>(GL_COLOR_ATTACHMENT6_EXT));
+  Nan::Set(result, Nan::New("COLOR_ATTACHMENT7_WEBGL").ToLocalChecked(), Nan::New<v8::Number>(GL_COLOR_ATTACHMENT7_EXT));
+  Nan::Set(result, Nan::New("COLOR_ATTACHMENT8_WEBGL").ToLocalChecked(), Nan::New<v8::Number>(GL_COLOR_ATTACHMENT8_EXT));
+  Nan::Set(result, Nan::New("COLOR_ATTACHMENT9_WEBGL").ToLocalChecked(), Nan::New<v8::Number>(GL_COLOR_ATTACHMENT9_EXT));
+  Nan::Set(result, Nan::New("COLOR_ATTACHMENT10_WEBGL").ToLocalChecked(), Nan::New<v8::Number>(GL_COLOR_ATTACHMENT10_EXT));
+  Nan::Set(result, Nan::New("COLOR_ATTACHMENT11_WEBGL").ToLocalChecked(), Nan::New<v8::Number>(GL_COLOR_ATTACHMENT11_EXT));
+  Nan::Set(result, Nan::New("COLOR_ATTACHMENT12_WEBGL").ToLocalChecked(), Nan::New<v8::Number>(GL_COLOR_ATTACHMENT12_EXT));
+  Nan::Set(result, Nan::New("COLOR_ATTACHMENT13_WEBGL").ToLocalChecked(), Nan::New<v8::Number>(GL_COLOR_ATTACHMENT13_EXT));
+  Nan::Set(result, Nan::New("COLOR_ATTACHMENT14_WEBGL").ToLocalChecked(), Nan::New<v8::Number>(GL_COLOR_ATTACHMENT14_EXT));
+  Nan::Set(result, Nan::New("COLOR_ATTACHMENT15_WEBGL").ToLocalChecked(), Nan::New<v8::Number>(GL_COLOR_ATTACHMENT15_EXT));
+
+  Nan::Set(result, Nan::New("DRAW_BUFFER0_WEBGL").ToLocalChecked(), Nan::New<v8::Number>(GL_DRAW_BUFFER0_EXT));
+  Nan::Set(result, Nan::New("DRAW_BUFFER1_WEBGL").ToLocalChecked(), Nan::New<v8::Number>(GL_DRAW_BUFFER1_EXT));
+  Nan::Set(result, Nan::New("DRAW_BUFFER2_WEBGL").ToLocalChecked(), Nan::New<v8::Number>(GL_DRAW_BUFFER2_EXT));
+  Nan::Set(result, Nan::New("DRAW_BUFFER3_WEBGL").ToLocalChecked(), Nan::New<v8::Number>(GL_DRAW_BUFFER3_EXT));
+  Nan::Set(result, Nan::New("DRAW_BUFFER4_WEBGL").ToLocalChecked(), Nan::New<v8::Number>(GL_DRAW_BUFFER4_EXT));
+  Nan::Set(result, Nan::New("DRAW_BUFFER5_WEBGL").ToLocalChecked(), Nan::New<v8::Number>(GL_DRAW_BUFFER5_EXT));
+  Nan::Set(result, Nan::New("DRAW_BUFFER6_WEBGL").ToLocalChecked(), Nan::New<v8::Number>(GL_DRAW_BUFFER6_EXT));
+  Nan::Set(result, Nan::New("DRAW_BUFFER7_WEBGL").ToLocalChecked(), Nan::New<v8::Number>(GL_DRAW_BUFFER7_EXT));
+  Nan::Set(result, Nan::New("DRAW_BUFFER8_WEBGL").ToLocalChecked(), Nan::New<v8::Number>(GL_DRAW_BUFFER8_EXT));
+  Nan::Set(result, Nan::New("DRAW_BUFFER9_WEBGL").ToLocalChecked(), Nan::New<v8::Number>(GL_DRAW_BUFFER9_EXT));
+  Nan::Set(result, Nan::New("DRAW_BUFFER10_WEBGL").ToLocalChecked(), Nan::New<v8::Number>(GL_DRAW_BUFFER10_EXT));
+  Nan::Set(result, Nan::New("DRAW_BUFFER11_WEBGL").ToLocalChecked(), Nan::New<v8::Number>(GL_DRAW_BUFFER11_EXT));
+  Nan::Set(result, Nan::New("DRAW_BUFFER12_WEBGL").ToLocalChecked(), Nan::New<v8::Number>(GL_DRAW_BUFFER12_EXT));
+  Nan::Set(result, Nan::New("DRAW_BUFFER13_WEBGL").ToLocalChecked(), Nan::New<v8::Number>(GL_DRAW_BUFFER13_EXT));
+  Nan::Set(result, Nan::New("DRAW_BUFFER14_WEBGL").ToLocalChecked(), Nan::New<v8::Number>(GL_DRAW_BUFFER14_EXT));
+  Nan::Set(result, Nan::New("DRAW_BUFFER15_WEBGL").ToLocalChecked(), Nan::New<v8::Number>(GL_DRAW_BUFFER15_EXT));
+
+  Nan::Set(result, Nan::New("MAX_COLOR_ATTACHMENTS_WEBGL").ToLocalChecked(), Nan::New<v8::Number>(GL_MAX_COLOR_ATTACHMENTS_EXT));
+  Nan::Set(result, Nan::New("MAX_DRAW_BUFFERS_WEBGL").ToLocalChecked(), Nan::New<v8::Number>(GL_MAX_DRAW_BUFFERS_EXT));
+
+  info.GetReturnValue().Set(result);
+}
+
+GL_METHOD(BindVertexArrayOES) {
+  GL_BOILERPLATE;
+
+  GLuint array = Nan::To<uint32_t>(info[0]).ToChecked();
+
+  (inst->glBindVertexArrayOES)(array);
+}
+
+GL_METHOD(CreateVertexArrayOES) {
+  GL_BOILERPLATE;
+
+  GLuint array = 0;
+  (inst->glGenVertexArraysOES)(1, &array);
+  inst->registerGLObj(GLOBJECT_TYPE_VERTEX_ARRAY, array);
+
+  info.GetReturnValue().Set(Nan::New<v8::Integer>(array));
+}
+
+GL_METHOD(DeleteVertexArrayOES) {
+  GL_BOILERPLATE;
+
+  GLuint array = Nan::To<uint32_t>(info[0]).ToChecked();
+  inst->unregisterGLObj(GLOBJECT_TYPE_VERTEX_ARRAY, array);
+
+  (inst->glDeleteVertexArraysOES)(1, &array);
+}
+
+GL_METHOD(IsVertexArrayOES) {
+  GL_BOILERPLATE;
+
+  info.GetReturnValue().Set(Nan::New<v8::Boolean>(
+    (inst->glIsVertexArrayOES)(Nan::To<uint32_t>(info[0]).ToChecked()) != 0));
 }

@@ -122,9 +122,15 @@ void WebGLRenderingContext::initPointers(){
 	glGetIntegerv=reinterpret_cast<PFNGLGETINTEGERVPROC>(eglGetProcAddress("glGetIntegerv"));
 	glGetBooleanv=reinterpret_cast<PFNGLGETBOOLEANVPROC>(eglGetProcAddress("glGetBooleanv"));
 	glGetProgramiv=reinterpret_cast<PFNGLGETPROGRAMIVPROC>(eglGetProcAddress("glGetProgramiv"));
+	glGetTexParameterfv=reinterpret_cast<PFNGLGETTEXPARAMETERFVPROC>(eglGetProcAddress("glGetTexParameterfv"));
 	glGetTexParameteriv=reinterpret_cast<PFNGLGETTEXPARAMETERIVPROC>(eglGetProcAddress("glGetTexParameteriv"));
 	glGetShaderiv=reinterpret_cast<PFNGLGETSHADERIVPROC>(eglGetProcAddress("glGetShaderiv"));
 	glGetVertexAttribPointerv=reinterpret_cast<PFNGLGETVERTEXATTRIBPOINTERVPROC>(eglGetProcAddress("glGetVertexAttribPointerv"));
 	glGetString=reinterpret_cast<PFNGLGETSTRINGPROC>(eglGetProcAddress("glGetString"));
 	glGetError=reinterpret_cast<PFNGLGETERRORPROC>(eglGetProcAddress("glGetError"));
+	glDrawBuffersEXT=reinterpret_cast<PFNGLDRAWBUFFERSEXTPROC>(eglGetProcAddress("glDrawBuffersEXT"));
+	glGenVertexArraysOES=reinterpret_cast<PFNGLGENVERTEXARRAYSOESPROC>(eglGetProcAddress("glGenVertexArraysOES"));
+	glDeleteVertexArraysOES=reinterpret_cast<PFNGLDELETEVERTEXARRAYSOESPROC>(eglGetProcAddress("glDeleteVertexArraysOES"));
+	glIsVertexArrayOES=reinterpret_cast<PFNGLISVERTEXARRAYOESPROC>(eglGetProcAddress("glIsVertexArrayOES"));
+	glBindVertexArrayOES=reinterpret_cast<PFNGLBINDVERTEXARRAYOESPROC>(eglGetProcAddress("glBindVertexArrayOES"));
 }
