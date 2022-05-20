@@ -13,7 +13,9 @@
   "scripts": {
     "test": "standard | snazzy && tape test/*.js | faucet",
     "test:angle": "export TRAVIS_OS_NAME='linux' && ./scripts/test.sh",
+    "test:swiftshader": "./scripts/test.sh",
     "rebuild": "node-gyp rebuild --verbose",
+    "rebuild:pkg_config": "node-gyp configure --headless_gl_pkg_config=1 && node-gyp rebuild --verbose",
     "prebuild": "prebuild --all --strip",
     "install": "prebuild-install || node-gyp rebuild"
   },
