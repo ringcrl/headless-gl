@@ -1,1 +1,0 @@
-cmd_Debug/obj.target/webgl.node := g++ -o Debug/obj.target/webgl.node -shared -pthread -rdynamic -m64  -Wl,-soname=webgl.node -Wl,--start-group Debug/obj.target/webgl/src/native/bindings.o Debug/obj.target/webgl/src/native/webgl.o Debug/obj.target/webgl/src/native/procs.o -Wl,--end-group -L/data/github.com/headless-gl/deps/swiftshader -lEGL -lGLESv2

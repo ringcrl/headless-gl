@@ -13,7 +13,7 @@
   "scripts": {
     "test": "standard | snazzy && tape test/*.js | faucet",
     "test:angle": "export TRAVIS_OS_NAME='linux' && ./scripts/test.sh",
-    "rebuild": "node-gyp -j 16 rebuild --verbose --debug",
+    "rebuild": "node-gyp -j 16 rebuild --verbose",
     "prebuild": "prebuild --all --strip",
     "install": "prebuild-install || node-gyp rebuild"
   },
