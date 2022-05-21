@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "name": "gcc-include",
+      "includePath": [
+        "src/native",
+        "/root/.nvm/versions/node/v16.15.0/include/node",
+        "node_modules/nan",
+        "include"
+      ]
+    }
+  ],
+  "version": 4
+}

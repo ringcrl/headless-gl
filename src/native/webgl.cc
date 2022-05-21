@@ -45,6 +45,7 @@ WebGLRenderingContext::WebGLRenderingContext(
   //Get display
   if (!HAS_DISPLAY) {
     DISPLAY = eglGetDisplay(EGL_DEFAULT_DISPLAY);
+    std::cout << "DISPLAY " << DISPLAY << std::endl;
     if (DISPLAY == EGL_NO_DISPLAY) {
       state = GLCONTEXT_STATE_ERROR;
       return;
@@ -52,6 +53,7 @@ WebGLRenderingContext::WebGLRenderingContext(
 
     //Initialize EGL
     if (!eglInitialize(DISPLAY, NULL, NULL)) {
+      std::cout << "!eglInitialize(DISPLAY, NULL, NULL) " << std::endl;
       state = GLCONTEXT_STATE_ERROR;
       return;
     }
@@ -95,8 +97,8 @@ WebGLRenderingContext::WebGLRenderingContext(
   }
 
   EGLint surfaceAttribs[] = {
-        EGL_WIDTH,  (EGLint)width
-      , EGL_HEIGHT, (EGLint)height
+        EGL_WIDTH,  (EGLint)1
+      , EGL_HEIGHT, (EGLint)1
       , EGL_NONE
   };
   surface = eglCreatePbufferSurface(DISPLAY, config, surfaceAttribs);
@@ -119,17 +121,17 @@ WebGLRenderingContext::WebGLRenderingContext(
   //Initialize function pointers
   initPointers();
 
-  //Check extensions
+  // Check extensions
   const char *extensionString = (const char*)((glGetString)(GL_EXTENSIONS));
 
-  //Load a required extension: OES_packed_depth_stencil
+  // Load a required extension: OES_packed_depth_stencil
   if(!strstr(extensionString, "GL_OES_packed_depth_stencil")) {
     dispose();
     state = GLCONTEXT_STATE_ERROR;
     return;
   }
 
-  //Select best preferred depth
+  // Select best preferred depth
   preferredDepth = GL_DEPTH_COMPONENT16;
   if(strstr(extensionString, "GL_OES_depth32")) {
     preferredDepth = GL_DEPTH_COMPONENT32_OES;

@@ -1,8 +1,8 @@
-build/*
+# build/*
 .lock-wscript
 npm-debug.log
 .idea
-Debug
+# Debug
 *.log
 node_modules
 prebuilds/*

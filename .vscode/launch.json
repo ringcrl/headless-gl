@@ -1,0 +1,29 @@
+{
+  "configurations": [
+    {
+      "name": "JS",
+      "type": "node",
+      "request": "launch",
+      "program": "test/blending.js",
+      "cwd": "${workspaceFolder}",
+      "outputCapture": "std",
+      "runtimeExecutable": "/root/.nvm/versions/node/v16.15.0/bin/node",
+      "env": {
+        "LD_LIBRARY_PATH": "/data/github.com/headless-gl/deps/swiftshader"
+      },
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "lldb",
+      "program": "/root/.nvm/versions/node/v16.15.0/bin/node",
+      "preLaunchTask": "npm: rebuild",
+      "env": {
+        "LD_LIBRARY_PATH": "/data/github.com/headless-gl/deps/swiftshader"
+      },
+      "args": [
+         "test/blending.js"
+      ]
+   }
+  ]
+}

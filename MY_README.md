@@ -5,28 +5,24 @@
 ## 安装依赖
 
 ```sh
-# 初始化子模块
-git submodule update --init
+# 安装系统依赖
+apt-get install -y build-essential libxi-dev libglu1-mesa-dev libglew-dev pkg-config
 
 # 安装项目依赖
 npm install
-
-# 安装系统依赖
-apt-get install -y build-essential libxi-dev libglu1-mesa-dev libglew-dev pkg-config
 ```
 
-## 构建 Angle 版本
+
+## 构建
 
 ```sh
-# 编译 Angle 版本
+# 使用修改后的构建
 npm run rebuild
 
-# 运行测试用例
-npm run test:angle
+# 运行测试
+node test/blending.js
 ```
 
-## 构建非 Angle 版本
+# 文档
 
-```sh
-npm_config_headless_gl_pkg_config=pkg-config npm run rebuild
-```
+- [GYP文档](https://chromium.googlesource.com/external/gyp/+/md-pages/docs/UserDocumentation.md)
