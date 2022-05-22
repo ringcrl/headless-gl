@@ -9,7 +9,6 @@ DEFS_Debug := \
 	'-DV8_DEPRECATION_WARNINGS=1' \
 	'-DV8_DEPRECATION_WARNINGS' \
 	'-DV8_IMMINENT_DEPRECATION_WARNINGS' \
-	'-D_GLIBCXX_USE_CXX11_ABI=1' \
 	'-D_LARGEFILE_SOURCE' \
 	'-D_FILE_OFFSET_BITS=64' \
 	'-D__STDC_FORMAT_MACROS' \
@@ -38,16 +37,16 @@ CFLAGS_C_Debug :=
 CFLAGS_CC_Debug := \
 	-fno-rtti \
 	-fno-exceptions \
-	-std=gnu++14
+	-std=gnu++1y
 
 INCS_Debug := \
-	-I/root/.cache/node-gyp/16.15.0/include/node \
-	-I/root/.cache/node-gyp/16.15.0/src \
-	-I/root/.cache/node-gyp/16.15.0/deps/openssl/config \
-	-I/root/.cache/node-gyp/16.15.0/deps/openssl/openssl/include \
-	-I/root/.cache/node-gyp/16.15.0/deps/uv/include \
-	-I/root/.cache/node-gyp/16.15.0/deps/zlib \
-	-I/root/.cache/node-gyp/16.15.0/deps/v8/include \
+	-I/root/.cache/node-gyp/14.15.3/include/node \
+	-I/root/.cache/node-gyp/14.15.3/src \
+	-I/root/.cache/node-gyp/14.15.3/deps/openssl/config \
+	-I/root/.cache/node-gyp/14.15.3/deps/openssl/openssl/include \
+	-I/root/.cache/node-gyp/14.15.3/deps/uv/include \
+	-I/root/.cache/node-gyp/14.15.3/deps/zlib \
+	-I/root/.cache/node-gyp/14.15.3/deps/v8/include \
 	-I$(srcdir)/node_modules/nan \
 	-I$(srcdir)/include
 
@@ -58,7 +57,6 @@ DEFS_Release := \
 	'-DV8_DEPRECATION_WARNINGS=1' \
 	'-DV8_DEPRECATION_WARNINGS' \
 	'-DV8_IMMINENT_DEPRECATION_WARNINGS' \
-	'-D_GLIBCXX_USE_CXX11_ABI=1' \
 	'-D_LARGEFILE_SOURCE' \
 	'-D_FILE_OFFSET_BITS=64' \
 	'-D__STDC_FORMAT_MACROS' \
@@ -84,16 +82,16 @@ CFLAGS_C_Release :=
 CFLAGS_CC_Release := \
 	-fno-rtti \
 	-fno-exceptions \
-	-std=gnu++14
+	-std=gnu++1y
 
 INCS_Release := \
-	-I/root/.cache/node-gyp/16.15.0/include/node \
-	-I/root/.cache/node-gyp/16.15.0/src \
-	-I/root/.cache/node-gyp/16.15.0/deps/openssl/config \
-	-I/root/.cache/node-gyp/16.15.0/deps/openssl/openssl/include \
-	-I/root/.cache/node-gyp/16.15.0/deps/uv/include \
-	-I/root/.cache/node-gyp/16.15.0/deps/zlib \
-	-I/root/.cache/node-gyp/16.15.0/deps/v8/include \
+	-I/root/.cache/node-gyp/14.15.3/include/node \
+	-I/root/.cache/node-gyp/14.15.3/src \
+	-I/root/.cache/node-gyp/14.15.3/deps/openssl/config \
+	-I/root/.cache/node-gyp/14.15.3/deps/openssl/openssl/include \
+	-I/root/.cache/node-gyp/14.15.3/deps/uv/include \
+	-I/root/.cache/node-gyp/14.15.3/deps/zlib \
+	-I/root/.cache/node-gyp/14.15.3/deps/v8/include \
 	-I$(srcdir)/node_modules/nan \
 	-I$(srcdir)/include
 

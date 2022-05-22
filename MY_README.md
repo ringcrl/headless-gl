@@ -12,7 +12,6 @@ apt-get install -y build-essential libxi-dev libglu1-mesa-dev libglew-dev pkg-co
 npm install
 ```
 
-
 ## 构建
 
 ```sh

@@ -4,7 +4,7 @@
       "name": "JS",
       "type": "node",
       "request": "launch",
-      "program": "test/blending.js",
+      "program": "${file}",
       "cwd": "${workspaceFolder}",
       "outputCapture": "std",
       "runtimeExecutable": "/root/.nvm/versions/node/v16.15.0/bin/node",
