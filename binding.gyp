@@ -15,11 +15,21 @@
       # 包含的头文件所在的目录。这些将在编译命令行中传递（使用 -I 或 /I 选项）
       'include_dirs': [
         "<!(node -e \"require('nan')\")",
-        "include"
+        'include',
       ],
+      # gyp link so site:stackoverflow.com
       'libraries': [
-        '-L/data/github.com/headless-gl/deps/swiftshader -lEGL -lGLESv2',
+        '-Wl,-rpath,./build/Release/',
+        '<(module_root_dir)/deps/swiftshader/libEGL.so',
+        '<(module_root_dir)/deps/swiftshader/libGLESv2.so',
       ],
+      'copies': [{
+          'files': [
+            '<(module_root_dir)/deps/swiftshader/libEGL.so',
+            '<(module_root_dir)/deps/swiftshader/libGLESv2.so',
+          ],
+          'destination': '<(PRODUCT_DIR)'
+      }]
     }
   ]
 }

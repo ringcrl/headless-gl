@@ -4,7 +4,7 @@
       "name": "gcc-include",
       "includePath": [
         "src/native",
-        "/root/.nvm/versions/node/v16.15.0/include/node",
+        "/root/.nvm/versions/node/v14.15.3/include/node",
         "node_modules/nan",
         "include"
       ]

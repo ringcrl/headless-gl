@@ -2,6 +2,19 @@
 
 TOOLSET := target
 TARGET := webgl
+### Generated for copy rule.
+$(builddir)/libEGL.so: TOOLSET := $(TOOLSET)
+$(builddir)/libEGL.so: /data/github.com/headless-gl/deps/swiftshader/libEGL.so FORCE_DO_CMD
+	$(call do_cmd,copy)
+
+all_deps += $(builddir)/libEGL.so
+$(builddir)/libGLESv2.so: TOOLSET := $(TOOLSET)
+$(builddir)/libGLESv2.so: /data/github.com/headless-gl/deps/swiftshader/libGLESv2.so FORCE_DO_CMD
+	$(call do_cmd,copy)
+
+all_deps += $(builddir)/libGLESv2.so
+binding_gyp_webgl_target_copies = $(builddir)/libEGL.so $(builddir)/libGLESv2.so
+
 DEFS_Debug := \
 	'-DNODE_GYP_MODULE_NAME=webgl' \
 	'-DUSING_UV_SHARED=1' \
@@ -103,6 +116,9 @@ OBJS := \
 # Add to the list of files we specially track dependencies for.
 all_deps += $(OBJS)
 
+# Make sure our actions/rules run before any of us.
+$(OBJS): | $(binding_gyp_webgl_target_copies)
+
 # CFLAGS et al overrides must be target-local.
 # See "Target-specific Variable Values" in the GNU Make manual.
 $(OBJS): TOOLSET := $(TOOLSET)
@@ -124,6 +140,12 @@ $(obj).$(TOOLSET)/$(TARGET)/%.o: $(obj)/%.cc FORCE_DO_CMD
 
 # End of this set of suffix rules
 ### Rules for final target.
+# Build our special outputs first.
+$(obj).target/webgl.node: | $(binding_gyp_webgl_target_copies)
+
+# Preserve order dependency of special output on deps.
+$(binding_gyp_webgl_target_copies): | 
+
 LDFLAGS_Debug := \
 	-pthread \
 	-rdynamic \
@@ -135,7 +157,9 @@ LDFLAGS_Release := \
 	-m64
 
 LIBS := \
-	-L/data/github.com/headless-gl/deps/swiftshader -lEGL -lGLESv2
+	-Wl,-rpath,./build/Release/ \
+	-lEGL \
+	-lGLESv2
 
 $(obj).target/webgl.node: GYP_LDFLAGS := $(LDFLAGS_$(BUILDTYPE))
 $(obj).target/webgl.node: LIBS := $(LIBS)
