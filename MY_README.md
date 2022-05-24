@@ -5,8 +5,13 @@ fork from: https://github.com/descriptinc/headless-gl/tree/aki-gl
 ## 系统依赖
 
 ```sh
-# 安装系统依赖，非必须，mesa 依赖已经去掉
+# ubuntu：
+# 非必须，mesa 依赖已经去掉
 apt-get install -y build-essential libxi-dev libglu1-mesa-dev libglew-dev pkg-config
+
+# centos：
+yum search x11-dev
+yum install libX11-devel.x86_64
 ```
 
 ## 构建

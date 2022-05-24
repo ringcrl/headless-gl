@@ -158,8 +158,8 @@ LDFLAGS_Release := \
 
 LIBS := \
 	-Wl,-rpath,./build/Release/ \
-	-lEGL \
-	-lGLESv2
+	/data/github.com/headless-gl/deps/swiftshader/libEGL.so \
+	/data/github.com/headless-gl/deps/swiftshader/libGLESv2.so
 
 $(obj).target/webgl.node: GYP_LDFLAGS := $(LDFLAGS_$(BUILDTYPE))
 $(obj).target/webgl.node: LIBS := $(LIBS)
